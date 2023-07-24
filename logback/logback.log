@@ -1,0 +1,60 @@
+2023-07-24 00:07:42,442 WARN [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool [HikariPool.java : 788] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m20s875ms).
+2023-07-24 00:23:47,385 WARN [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool [HikariPool.java : 788] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m4s945ms).
+2023-07-24 00:29:01,266 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-24 00:29:01,288 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-24 09:03:15,462 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.2 on 192.168.0.122 with PID 898 (/Users/yubo/Documents/project/hardWareAI/target/classes started by yubo in /Users/yubo/Documents/project/hardWareAI)
+2023-07-24 09:03:15,464 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-24 09:03:17,204 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-24 09:03:17,215 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-24 09:03:17,216 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-24 09:03:17,217 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-24 09:03:17,310 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-24 09:03:17,310 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1775 ms
+2023-07-24 09:03:18,669 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-24 09:03:18,694 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-24 09:03:18,695 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-24 09:03:18,696 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-24 09:03:18,697 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-24 09:03:18,716 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 4.185 seconds (JVM running for 5.36)
+2023-07-24 09:03:18,763 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-24 09:03:18,767 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-24 09:03:42,391 INFO [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-24 09:03:43,142 INFO [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-24 09:11:11,159 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 65] 客户端:a410e2aa,连接netty服务器[IP:127.0.0.1-->PORT:49883]
+2023-07-24 09:11:11,175 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] channelActive连接通道数量: 1
+2023-07-24 09:11:17,486 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 86] 客户端:a410e2aa,连接netty服务器[IP:127.0.0.1-->PORT:49883]
+2023-07-24 09:11:17,498 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 87] channelInactive连接通道数量: 0
+2023-07-24 09:12:05,450 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 65] 客户端:71933afd,连接netty服务器[IP:127.0.0.1-->PORT:49922]
+2023-07-24 09:12:05,451 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] channelActive连接通道数量: 1
+2023-07-24 09:13:00,634 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 86] 客户端:71933afd,连接netty服务器[IP:127.0.0.1-->PORT:49922]
+2023-07-24 09:13:00,635 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 87] channelInactive连接通道数量: 0
+2023-07-24 09:13:13,091 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-24 09:13:13,120 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-24 09:20:52,639 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.2 on 192.168.0.122 with PID 1114 (/Users/yubo/Documents/project/hardWareAI/target/classes started by yubo in /Users/yubo/Documents/project/hardWareAI)
+2023-07-24 09:20:52,643 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-24 09:20:54,419 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-24 09:20:54,429 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-24 09:20:54,430 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-24 09:20:54,431 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-24 09:20:54,525 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-24 09:20:54,525 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1802 ms
+2023-07-24 09:20:55,987 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-24 09:20:56,010 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-24 09:20:56,011 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-24 09:20:56,012 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-24 09:20:56,014 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-24 09:20:56,035 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 4.256 seconds (JVM running for 5.199)
+2023-07-24 09:20:56,085 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-24 09:20:56,089 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-24 09:26:12,634 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 65] 客户端:1a0e7f12,连接netty服务器[IP:127.0.0.1-->PORT:50341]
+2023-07-24 09:26:12,642 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] channelActive连接通道数量: 1
+2023-07-24 09:29:52,624 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 65] 客户端:2ffbf17d,连接netty服务器[IP:127.0.0.1-->PORT:50715]
+2023-07-24 09:29:52,634 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] channelActive连接通道数量: 2

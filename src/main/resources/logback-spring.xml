@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+<!--    <include resource="org/springframework/boot/logging/logback/base.xml" />-->
+
+    <!-- 日志文件名称 -->
+    <contextName>spring-boot-log</contextName>
+    <property name="log.path" value="logback/logback.log" />
+
+    <!-- 输出的控制台 -->
+    <appender name="myconsole" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 输出到文件 -->
+    <appender name="file"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志名，用到了上面配置的路径-->
+        <file>${log.path}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 单个文件最大100M -->
+            <maxFileSize>100MB</maxFileSize>
+            <!-- 保留30天的日志 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+        <logger name="com.gzl" level="INFO"/>
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <logger name="com.gzl" level="ERROR"/>
+    </springProfile>
+
+
+    <!-- 日志级别 -->
+    <root level="error">
+        <appender-ref ref="myconsole" />
+        <appender-ref ref="file" />
+    </root>
+
+    <root level="INFO">
+        <appender-ref ref="myconsole" />
+        <appender-ref ref="file" />
+    </root>
+
+    <!--设置具体包的隔离级别，一般使用mybatis会单独设置mapper-->
+    <!--<logger name="com.gzl.cn.mapper.UserMapper" level="DEBUG"></logger>-->
+
+</configuration>
