@@ -28,7 +28,6 @@ public class GroupChatClient {
 
         try {
 
-
             Bootstrap bootstrap = new Bootstrap()
                     .group(group)
                     .channel(NioSocketChannel.class)
