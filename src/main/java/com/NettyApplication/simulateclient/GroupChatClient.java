@@ -55,7 +55,7 @@ public class GroupChatClient {
             Scanner scanner = new Scanner(System.in);
             while (scanner.hasNextLine()) {
                 String msg = scanner.nextLine();
-                //通过channel 发送到服务器端 AA01016400001FF
+                //通过channel 发送到服务器端 AA01016400001FF  00010400000000000000
 //                byte[] msgBytes = {(byte) 0xAA, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, (byte) 0xFF};
                 byte[] msgBytes = new byte[msg.length() / 2];
 
