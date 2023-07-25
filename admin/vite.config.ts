@@ -4,10 +4,11 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   server: {
     proxy: {
       '/api': {
-        target: 'http://192.168.1.3:8888',
+        target: 'https://phooweb.frp.leeg.cc',
         changeOrigin: true,
         rewrite: path => path.replace('/api', '')
       }
