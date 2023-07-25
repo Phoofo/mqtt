@@ -21,21 +21,22 @@ public class AirLinkController {
     @Operation(description = "设置空调温度/关机/开机/查询....")
 //    @Parameter(name = "id",description = "id",in = ParameterIn.HEADER,example = "1")
 //    @Parameter(name = "name",description = "name",in = ParameterIn.HEADER,example = "jack")
-    @PostMapping ("/set")
-    public ResponseEntity<String> set(@RequestBody HardWareModel hardWare){
+    @GetMapping ("/set")
+    public ResponseEntity<String> set(){
 
         byte[] msgBytes = {
                 (byte) Integer.parseInt("AA", 16),
                 (byte) Integer.parseInt("01", 16),
-                (byte) Integer.parseInt(hardWare.getNumber(), 16),
-                (byte) Integer.parseInt(hardWare.getSet(), 16),
+                (byte) Integer.parseInt("04", 16),
+                (byte) Integer.parseInt("01", 16),
                 (byte) Integer.parseInt("00", 16),
                 (byte) Integer.parseInt("00", 16),
                 (byte) Integer.parseInt("00", 16),
                 (byte) Integer.parseInt("FF", 16)
         };
+        short s =01;
         //设置硬件的状态
-        dtuManage.sendMsg(msgBytes,"/"+hardWare.getIp()+":"+hardWare.getPort());
+        dtuManage.sendMsg(msgBytes,s);
 
         return ResponseEntity.ok("Success!");
     }

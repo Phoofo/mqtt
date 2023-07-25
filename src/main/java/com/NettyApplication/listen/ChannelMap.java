@@ -1,5 +1,6 @@
 package com.NettyApplication.listen;
 
+import com.NettyApplication.toolmodel.TenByteEntity;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -17,10 +18,18 @@ public class ChannelMap {
     /**
      * 管理一个全局map，保存连接进服务端的通道数量
      */
-    private static final ConcurrentHashMap<ChannelId, Channel> CHANNEL_MAP = new ConcurrentHashMap<>(128);
+    private static final ConcurrentHashMap<ChannelId, Channel> CHANNEL_MAP = new ConcurrentHashMap<>(1000);
 
     public static ConcurrentHashMap<ChannelId, Channel> getChannelMap() {
         return CHANNEL_MAP;
+    }
+
+    /**
+     * 管理一个全局map，保存连接进服务端的通道和硬件的详细信息
+     */
+    private static final ConcurrentHashMap<ChannelId,ConcurrentHashMap<String, Object>> CHANNEL_detail = new ConcurrentHashMap<>(1000);
+    public static ConcurrentHashMap<ChannelId,ConcurrentHashMap<String, Object>> getChannelDetail() {
+        return CHANNEL_detail;
     }
 
     /**
@@ -31,6 +40,14 @@ public class ChannelMap {
             return null;
         }
         return CHANNEL_MAP.get(channelId);
+    }
+
+    public static Channel getChannelByName1(ChannelId channelId){
+        if(CollectionUtils.isEmpty(CHANNEL_detail)){
+            return null;
+        }
+        ConcurrentHashMap<String, Object> stringObjectConcurrentHashMap = CHANNEL_detail.get(channelId);
+        return (Channel)stringObjectConcurrentHashMap.get(channelId);
     }
 
     /**
@@ -60,6 +77,17 @@ public class ChannelMap {
     public static boolean removeChannelByName(ChannelId channelId){
         if(CHANNEL_MAP.containsKey(channelId)){
             CHANNEL_MAP.remove(channelId);
+            return true;
+        }
+        return false;
+    }
+    public static void addChannelOrTenByteEntity(ChannelId channelId,ConcurrentHashMap<String, Object> TenByteEntity){
+        CHANNEL_detail.put(channelId,TenByteEntity);
+    }
+
+    public static boolean removeChannelByChannelId(ChannelId channelId){
+        if(CHANNEL_detail.containsKey(channelId)){
+            CHANNEL_detail.remove(channelId);
             return true;
         }
         return false;

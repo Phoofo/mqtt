@@ -1,5 +1,6 @@
 package com.NettyApplication.listen;
 
+import com.NettyApplication.tool.HexConversion;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -23,33 +24,37 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DtuManage {
 
 
-    public void sendMsg(byte[] msgBytes,String remoteaddress){
-        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
-        if(CollectionUtils.isEmpty(channelMap)){
+    public void sendMsg(byte[] msgBytes,short address){
+//        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
+        ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
+        if(CollectionUtils.isEmpty(channelDetail)){
             return;
         }
-        ConcurrentHashMap.KeySetView<ChannelId, Channel> channelIds = channelMap.keySet();
+//        ConcurrentHashMap.KeySetView<ChannelId, Channel> channelIds = channelMap.keySet();
+        ConcurrentHashMap.KeySetView<ChannelId, ConcurrentHashMap<String, Object>> channelIds = channelDetail.keySet();
         for(ChannelId channelId : channelIds){
-            Channel channel = ChannelMap.getChannelByName(channelId);
+//            Channel channel = ChannelMap.getChannelByName1(channelId);
+            Channel channel = (Channel)channelDetail.get(channelId).get("channel");
             // 判断是否活跃
             if(channel==null || !channel.isActive()){
-                ChannelMap.getChannelMap().remove(channelId);
+                ChannelMap.getChannelDetail().remove(channelId);
                 log.info("客户端:{},连接已经中断",channelId);
                 return ;
             }
 
-            System.out.println(channel.remoteAddress());
-            System.out.println(remoteaddress);
+            System.out.println("netty中的IP"+channel.remoteAddress());
+            log.info("address========="+address);
+            log.info("address11111111"+channelDetail.get(channelId).get("address"));
             // 指令发送
-            if(channel.remoteAddress().toString().equals(remoteaddress)) {
+            if(address == (Short)channelDetail.get(channelId).get("address")) {
                 ByteBuf buffer = Unpooled.buffer();
-                log.info("开始发送报文:{}", channelId + "：" + Arrays.toString(msgBytes));
+                log.info("开始发送报文:{}", channelId + "：" + HexConversion.byteArrayToHexString(msgBytes));
                 buffer.writeBytes(msgBytes);
                 channel.writeAndFlush(buffer).addListener((ChannelFutureListener) future -> {
                     if (future.isSuccess()) {
-                        log.info("客户端:{},回写成功:{}", channelId, Arrays.toString(msgBytes));
+                        log.info("客户端:{},回写成功:{}", channelId, HexConversion.byteArrayToHexString(msgBytes));
                     } else {
-                        log.info("客户端:{},回写失败:{}", channelId, Arrays.toString(msgBytes));
+                        log.info("客户端:{},回写失败:{}", channelId, HexConversion.byteArrayToHexString(msgBytes));
                     }
                 });
             }
