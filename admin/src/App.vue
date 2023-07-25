@@ -2,7 +2,8 @@
   <div>
     <h2 class="text-[#4e4e4e] text-[30px]">空调</h2>
     <el-row>
-      <el-col :span="7" v-for="item in list" class="item">
+      <el-col :span="9" v-for="item in list" class="mr-[10px]">
+        
         <el-card class="box-card">
           <div class="flex justify-between mt-[10px]">
             <p>地址</p>
@@ -33,7 +34,8 @@
           <div style="margin-bottom: 10px;">
 
           </div>
-
+          <el-button type="primary" @click="onSubmit(item, '01')">查询</el-button>
+          <el-button type="primary" @click="onSubmit(item, '02')">开机（自动）</el-button>
           <el-button type="primary" @click="onSubmit(item, '03')">关机</el-button>
           <el-button type="primary" @click="onSubmit(item, '04')">制冷</el-button>
           <el-button type="primary" @click="onSubmit(item, '05')">制热</el-button>
@@ -45,7 +47,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { hardWareGet, airLinkSet } from '@/api/index.ts'
+import { airLinkSet, DeviceInfoList } from '@/api/index.ts'
 import type { Item } from '@/types/index.ts'
 const list = ref<Item[]>([])
 const onSubmit = async (item: Item, type: string) => {
@@ -57,8 +59,11 @@ const onSubmit = async (item: Item, type: string) => {
   })
 }
 onMounted(async () => {
-  const { msg } = await hardWareGet()
+  // const { msg } = await hardWareGet()
+  // list.value = msg
+  const { msg } = await DeviceInfoList()
   list.value = msg
+  
 })
 </script>
 <style scoped></style>
