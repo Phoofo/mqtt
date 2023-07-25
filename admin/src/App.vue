@@ -1,80 +1,58 @@
 <template>
-  <div>
-    <h2 class="text-[#4e4e4e] text-[30px]">空调</h2>
-    <el-row>
-      <el-col :span="9" v-for="item in list" class="mr-[10px]">
-
-        <el-card class="box-card">
-          <div class="flex justify-between mt-[10px]">
-            <p>主板编号</p>
-            <el-tag type="success">{{ item.controlId }}</el-tag>
-          </div>
-          <div class="flex justify-between mt-[10px]">
-            <p>设备编号</p>
-            <!-- <p>{{ item.state }}</p> -->
-            <el-tag type="warning">{{ item.deviceId }}</el-tag>
-          </div>
-          <div class="flex justify-between mt-[10px]">
-            <p>设备类型</p>
-            <!-- <p>{{ item.ip }}</p> -->
-            <el-tag type="success">{{ item.deviceTypeId == 1 ? "空调" : "其他" }}</el-tag>
-          </div>
-          <div class="flex justify-between mt-[10px]">
-            <p>状态A</p>
-            <!-- <p>{{ item.port }}</p> -->
-            <el-tag type="warning">{{ item.stateA || "暂无信息" }}</el-tag>
-          </div>
-          <div class="flex justify-between mt-[10px]">
-            <p>状态B</p>
-            <!-- <p>{{ item.port }}</p> -->
-            <el-tag type="warning">{{ item.stateB || "暂无信息" }}</el-tag>
-          </div>
-          <div class="flex justify-between mt-[10px]">
-            <p>状态C</p>
-            <!-- <p>{{ item.port }}</p> -->
-            <el-tag type="warning">{{ item.stateC || "暂无信息" }}</el-tag>
-          </div>
-          <div class="flex justify-between mt-[10px]">
-            <p>状态D</p>
-            <!-- <p>{{ item.port }}</p> -->
-            <el-tag type="warning">{{ item.stateD || "暂无信息" }}</el-tag>
-          </div>
-          <div style="margin-bottom: 10px;">
-
-          </div>
-          <el-button type="primary" @click="onSubmit(item, '01')">查询</el-button>
-          <el-button type="primary" @click="onSubmit(item, '02')">开机（自动）</el-button>
-          <el-button type="primary" @click="onSubmit(item, '03')">关机</el-button>
-          <el-button type="primary" @click="onSubmit(item, '04')">制冷</el-button>
-          <el-button type="primary" @click="onSubmit(item, '05')">制热</el-button>
-          <el-button type="primary" @click="onSubmit(item, '06')">除湿</el-button>
-        </el-card>
-      </el-col>
-    </el-row>
+  <div style="width: 80%; margin: 20px auto;margin-bottom: 0;">
+    <el-table :data="list" border style="width: 100%">
+      <el-table-column prop="controlId" label="主板编号" align="center" />
+      <el-table-column prop="deviceId" label="设备编号" align="center" />
+      <el-table-column label="设备类型" align="center">
+        <template #default="{ row }">
+          {{ row.deviceTypeId == 1 ? "空调" : "其他" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="stateA" label="状态A" align="center">
+        <template #default="{ row }">
+          {{ row.stateA || "暂无信息" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="stateB" label="状态B" align="center">
+        <template #default="{ row }">
+          {{ row.stateB || "暂无信息" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="stateC" label="状态C" align="center">
+        <template #default="{ row }">
+          {{ row.stateC || "暂无信息" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="stateD" label="状态D" align="center">
+        <template #default="{ row }">
+          {{ row.stateD || "暂无信息" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="stateD" label="状态D" align="center">
+        <template #default="{ row }">
+          <!-- {{ row.stateD || "暂无信息" }} -->
+          <el-button @click="setTools(row)">操作</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
+  <conditioning-model v-model="show" :item="active"></conditioning-model>
 </template>
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
-import {airLinkSet, DeviceInfoList} from '@/api/index.ts'
-import type {Item} from '@/types/index.ts'
-
+import { ref, onMounted, reactive } from 'vue';
+import {  DeviceInfoList } from '@/api/index.ts'
+import type { Item } from '@/types/index.ts'
+import ConditioningModel from './components/conditioningModel.vue';
+let show = ref<boolean>(false)
 const list = ref<Item[]>([])
-const onSubmit = async (item: Item, type: string) => {
-  await airLinkSet({
-    ...item,
-    controlId: item.controlId,
-    deviceId: item.deviceId,
-    deviceTypeId: item.deviceTypeId,
-    operation: type
-  })
+let active = reactive({})
+const setTools = (item:Item) => {
+  show.value = true
+  active = item
 }
 onMounted(async () => {
-  // const { msg } = await hardWareGet()
-  // list.value = msg
-  const {data} = await DeviceInfoList()
-  console.log(data);
+  const { data } = await DeviceInfoList()
   list.value = data
-
 })
 </script>
 <style scoped></style>
