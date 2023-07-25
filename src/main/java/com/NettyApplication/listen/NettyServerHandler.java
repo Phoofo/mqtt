@@ -27,8 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.net.InetSocketAddress;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -156,6 +158,30 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
             //如果是8个字节数据硬件状态，这是硬件返回的信息
             EightByteEntity entity = (EightByteEntity) msg;
             log.info(entity.toString());
+            if (ObjectUtil.isNotNull(entity)) {
+                ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
+                if (CollectionUtils.isEmpty(channelDetail)) {
+                    return;
+                }
+                //获取设备信息
+                Short address = (Short) channelDetail.get(ctx.channel().id()).get("address");
+                IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
+                DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
+                        .eq(DeviceInfo::getControlId, address)//主板编码
+                        .eq(DeviceInfo::getDeviceId, entity.getAddress())//设备编码
+                        .eq(DeviceInfo::getDeviceTypeId, 1L)//设备类型
+                );
+                //更新设备信息
+                if (ObjectUtil.isNotNull(one)) {
+                    one.setStateA(entity.getStatus1());
+                    one.setStateB(entity.getStatus2());
+                    one.setStateC(entity.getStatus3());
+                    one.setStateD(entity.getStatus4());
+                    one.setLastModifiedDate(LocalDateTime.now());
+                    deviceInfoService.updateById(one);
+                }
+
+            }
 
         }
 //        ByteBuf response = processRequest(msg,ctx);

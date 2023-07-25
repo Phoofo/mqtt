@@ -46,22 +46,22 @@ public class DeviceInfo implements Serializable {
     /**
      * 状态A
      */
-    private String stateA;
+    private Byte stateA;
 
     /**
      * 状态B
      */
-    private String stateB;
+    private Byte stateB;
 
     /**
      * 状态C
      */
-    private String stateC;
+    private Byte stateC;
 
     /**
      * 状态D
      */
-    private String stateD;
+    private Byte stateD;
 
     /**
      * 创建时间*

@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/airLink")
-@Tag(name = "airLink",description = "空调")
+@Tag(name = "airLink", description = "空调")
 @CrossOrigin
 public class AirLinkController {
     @Resource
@@ -21,8 +21,8 @@ public class AirLinkController {
     @Operation(description = "设置空调温度/关机/开机/查询....")
 //    @Parameter(name = "id",description = "id",in = ParameterIn.HEADER,example = "1")
 //    @Parameter(name = "name",description = "name",in = ParameterIn.HEADER,example = "jack")
-    @GetMapping ("/set")
-    public ResponseEntity<String> set(){
+    @GetMapping("/set")
+    public ResponseEntity<String> set() {
 
         byte[] msgBytes = {
                 (byte) Integer.parseInt("AA", 16),
@@ -32,11 +32,17 @@ public class AirLinkController {
                 (byte) Integer.parseInt("00", 16),
                 (byte) Integer.parseInt("00", 16),
                 (byte) Integer.parseInt("00", 16),
-                (byte) Integer.parseInt("FF", 16)
+                (byte) Integer.parseInt("FE", 16)
         };
-        short s =01;
+        //01查询
+        //02开机(自动)
+        //03关机
+        //04制冷
+        //05制热
+        //06除湿
+        short s = 01;
         //设置硬件的状态
-        dtuManage.sendMsg(msgBytes,s);
+        dtuManage.sendMsg(msgBytes, s);
 
         return ResponseEntity.ok("Success!");
     }
