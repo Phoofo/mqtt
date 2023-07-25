@@ -1,7 +1,7 @@
 import request from '@/utils/request.ts'
 export const airLinkSet = (data: any):Promise<any> => {
     return request({
-        url: '/airLink/set',
+        url: '/Device/setAir',
         data,
         method: 'POST'
     })

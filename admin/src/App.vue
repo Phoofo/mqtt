@@ -3,34 +3,42 @@
     <h2 class="text-[#4e4e4e] text-[30px]">空调</h2>
     <el-row>
       <el-col :span="9" v-for="item in list" class="mr-[10px]">
-        
+
         <el-card class="box-card">
           <div class="flex justify-between mt-[10px]">
-            <p>地址</p>
-            <!-- <p>{{ item.address }}</p> -->
-            <el-tag type="success">{{ item.address }}</el-tag>
+            <p>主板编号</p>
+            <el-tag type="success">{{ item.controlId }}</el-tag>
           </div>
           <div class="flex justify-between mt-[10px]">
-            <p>状态</p>
+            <p>设备编号</p>
             <!-- <p>{{ item.state }}</p> -->
-            <el-tag type="warning">{{ item.state }}</el-tag>
+            <el-tag type="warning">{{ item.deviceId }}</el-tag>
           </div>
           <div class="flex justify-between mt-[10px]">
-            <p>ip</p>
+            <p>设备类型</p>
             <!-- <p>{{ item.ip }}</p> -->
-            <el-tag type="success">{{ item.ip }}</el-tag>
+            <el-tag type="success">{{ item.deviceTypeId == 1 ? "空调" : "其他" }}</el-tag>
           </div>
           <div class="flex justify-between mt-[10px]">
-            <p>端口</p>
+            <p>状态A</p>
             <!-- <p>{{ item.port }}</p> -->
-            <el-tag type="warning">{{ item.port }}</el-tag>
+            <el-tag type="warning">{{ item.stateA || "暂无信息" }}</el-tag>
           </div>
           <div class="flex justify-between mt-[10px]">
-            <p>设备</p>
+            <p>状态B</p>
             <!-- <p>{{ item.port }}</p> -->
-            <el-tag type="warning">{{ item.sate1 }}</el-tag>
+            <el-tag type="warning">{{ item.stateB || "暂无信息" }}</el-tag>
           </div>
-
+          <div class="flex justify-between mt-[10px]">
+            <p>状态C</p>
+            <!-- <p>{{ item.port }}</p> -->
+            <el-tag type="warning">{{ item.stateC || "暂无信息" }}</el-tag>
+          </div>
+          <div class="flex justify-between mt-[10px]">
+            <p>状态D</p>
+            <!-- <p>{{ item.port }}</p> -->
+            <el-tag type="warning">{{ item.stateD || "暂无信息" }}</el-tag>
+          </div>
           <div style="margin-bottom: 10px;">
 
           </div>
@@ -46,24 +54,27 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { airLinkSet, DeviceInfoList } from '@/api/index.ts'
-import type { Item } from '@/types/index.ts'
+import {ref, onMounted} from 'vue';
+import {airLinkSet, DeviceInfoList} from '@/api/index.ts'
+import type {Item} from '@/types/index.ts'
+
 const list = ref<Item[]>([])
 const onSubmit = async (item: Item, type: string) => {
   await airLinkSet({
     ...item,
-    set: type,
-    number: item.number1,
-    sate: item.sate1
+    controlId: item.controlId,
+    deviceId: item.deviceId,
+    deviceTypeId: item.deviceTypeId,
+    operation: type
   })
 }
 onMounted(async () => {
   // const { msg } = await hardWareGet()
   // list.value = msg
-  const { msg } = await DeviceInfoList()
-  list.value = msg
-  
+  const {data} = await DeviceInfoList()
+  console.log(data);
+  list.value = data
+
 })
 </script>
 <style scoped></style>

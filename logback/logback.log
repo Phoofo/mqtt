@@ -672,3 +672,893 @@ java.lang.NullPointerException: null
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:834)
+2023-07-25 10:54:16,142 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 10060 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 10:54:16,144 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 10:54:17,115 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 10:54:17,138 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 10:54:17,139 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 10:54:17,139 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 10:54:17,235 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 10:54:17,235 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1050 ms
+2023-07-25 10:54:18,113 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 10:54:18,126 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 10:54:18,126 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 10:54:18,127 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 0 ms
+2023-07-25 10:54:18,128 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 10:54:18,136 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.594 seconds (JVM running for 3.39)
+2023-07-25 10:54:18,161 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 10:54:18,164 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 10:54:26,119 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] ChannelHandlerContext(NettyServerHandler#0, [id: 0x7e6be8c3, L:/127.0.0.1:20000 - R:/127.0.0.1:52389])
+2023-07-25 10:54:26,122 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 67] [id: 0x7e6be8c3, L:/127.0.0.1:20000 - R:/127.0.0.1:52389]
+2023-07-25 10:54:26,123 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 72] 客户端:7e6be8c3,连接netty服务器[IP:127.0.0.1-->PORT:52389]
+2023-07-25 10:54:26,123 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 73] channelActive连接通道数量: 1
+2023-07-25 10:54:42,611 INFO [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 10:54:43,066 INFO [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 10:55:05,227 WARN [http-nio-8888-exec-4] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 10:55:12,349 WARN [http-nio-8888-exec-5] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 11:00:57,966 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 8540 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 11:00:57,969 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 11:00:59,186 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 11:00:59,195 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:00:59,196 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 11:00:59,196 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 11:00:59,316 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 11:00:59,316 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1300 ms
+2023-07-25 11:01:00,307 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:01:00,341 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 11:01:00,342 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 11:01:00,343 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 11:01:00,344 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 11:01:00,354 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.848 seconds (JVM running for 4.654)
+2023-07-25 11:01:00,384 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 11:01:00,386 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 11:01:05,976 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] ChannelHandlerContext(NettyServerHandler#0, [id: 0x1f1843e6, L:/127.0.0.1:20000 - R:/127.0.0.1:53110])
+2023-07-25 11:01:05,976 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 67] [id: 0x1f1843e6, L:/127.0.0.1:20000 - R:/127.0.0.1:53110]
+2023-07-25 11:01:05,977 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 72] 客户端:1f1843e6,连接netty服务器[IP:127.0.0.1-->PORT:53110]
+2023-07-25 11:01:05,977 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 73] channelActive连接通道数量: 1
+2023-07-25 11:28:34,763 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 110] 加载客户端报文,客户端id:1f1843e6,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 11:28:34,772 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 115] TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 11:29:25,547 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 245] 1f1843e6:发生了错误,此连接被关闭。此时连通数量:0
+2023-07-25 11:29:25,549 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 89] 断开1客户端:1f1843e6,连接netty服务器[IP:127.0.0.1-->PORT:53110]
+2023-07-25 11:29:25,549 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 94] 断开2客户端:1f1843e6,连接netty服务器[IP:127.0.0.1-->PORT:53110]
+2023-07-25 11:29:25,549 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 95] channelInactive连接通道数量: 0
+2023-07-25 11:29:58,007 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 17392 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 11:29:58,010 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 11:29:59,070 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 11:29:59,080 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:29:59,081 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 11:29:59,081 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 11:29:59,181 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 11:29:59,181 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1134 ms
+2023-07-25 11:30:00,110 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:30:00,125 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 11:30:00,126 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 11:30:00,127 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 11:30:00,127 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 11:30:00,137 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.688 seconds (JVM running for 3.694)
+2023-07-25 11:30:00,165 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 11:30:00,167 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 11:30:12,005 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] ChannelHandlerContext(NettyServerHandler#0, [id: 0x270bbe16, L:/127.0.0.1:20000 - R:/127.0.0.1:56722])
+2023-07-25 11:30:12,007 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 67] [id: 0x270bbe16, L:/127.0.0.1:20000 - R:/127.0.0.1:56722]
+2023-07-25 11:30:12,007 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 72] 客户端:270bbe16,连接netty服务器[IP:127.0.0.1-->PORT:56722]
+2023-07-25 11:30:12,007 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 73] channelActive连接通道数量: 1
+2023-07-25 11:30:20,651 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 245] 270bbe16:发生了错误,此连接被关闭。此时连通数量:0
+2023-07-25 11:30:20,654 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 89] 断开1客户端:270bbe16,连接netty服务器[IP:127.0.0.1-->PORT:56722]
+2023-07-25 11:30:20,655 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 94] 断开2客户端:270bbe16,连接netty服务器[IP:127.0.0.1-->PORT:56722]
+2023-07-25 11:30:20,655 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 95] channelInactive连接通道数量: 0
+2023-07-25 11:30:31,314 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] ChannelHandlerContext(NettyServerHandler#0, [id: 0x32a95f48, L:/127.0.0.1:20000 - R:/127.0.0.1:56813])
+2023-07-25 11:30:31,315 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 67] [id: 0x32a95f48, L:/127.0.0.1:20000 - R:/127.0.0.1:56813]
+2023-07-25 11:30:31,315 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 72] 客户端:32a95f48,连接netty服务器[IP:127.0.0.1-->PORT:56813]
+2023-07-25 11:30:31,315 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 73] channelActive连接通道数量: 1
+2023-07-25 11:31:30,739 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 11968 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 11:31:30,742 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 11:31:31,914 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 11:31:31,923 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:31:31,924 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 11:31:31,924 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 11:31:32,023 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 11:31:32,024 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1246 ms
+2023-07-25 11:31:32,949 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:31:32,964 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 11:31:32,965 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 11:31:32,965 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 0 ms
+2023-07-25 11:31:32,966 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 11:31:32,976 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.826 seconds (JVM running for 3.935)
+2023-07-25 11:31:33,002 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 11:31:33,003 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 11:32:18,938 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] ChannelHandlerContext(NettyServerHandler#0, [id: 0xccfc81c0, L:/127.0.0.1:20000 - R:/127.0.0.1:57054])
+2023-07-25 11:32:19,543 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 67] [id: 0xccfc81c0, L:/127.0.0.1:20000 - R:/127.0.0.1:57054]
+2023-07-25 11:32:55,269 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 72] 客户端:ccfc81c0,连接netty服务器[IP:127.0.0.1-->PORT:57054]
+2023-07-25 11:32:55,271 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 73] channelActive连接通道数量: 1
+2023-07-25 11:33:44,542 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 110] 加载客户端报文,客户端id:ccfc81c0,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 11:33:52,267 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 115] TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 11:36:44,244 INFO [http-nio-8888-exec-10] o.s.api.AbstractOpenApiResource [AbstractOpenApiResource.java : 367] Init duration for springdoc-openapi is: 236 ms
+2023-07-25 11:38:57,545 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 11:38:58,219 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 11:39:35,414 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:ccfc81c0：AA 01 04 01 00 00 00 FF
+2023-07-25 11:39:41,787 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:ccfc81c0,回写成功:AA 01 04 01 00 00 00 FF
+2023-07-25 11:47:17,898 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 110] 加载客户端报文,客户端id:ccfc81c0,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=99, status2=0, status3=1, status4=1, ending=-1)
+2023-07-25 11:51:26,904 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 123] EightByteEntity(header=-86, type=1, address=4, status1=99, status2=0, status3=1, status4=1, ending=-1)
+2023-07-25 11:51:26,929 ERROR [http-nio-8888-exec-7] o.a.c.c.C.[Tomcat].[localhost] [DirectJDKLog.java : 175] Exception Processing ErrorPage[errorCode=0, location=/error]
+org.apache.catalina.connector.ClientAbortException: java.io.IOException: 你的主机中的软件中止了一个已建立的连接。
+	at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:310)
+	at org.apache.catalina.connector.OutputBuffer.flush(OutputBuffer.java:273)
+	at org.apache.catalina.connector.CoyoteOutputStream.flush(CoyoteOutputStream.java:118)
+	at java.base/java.io.FilterOutputStream.flush(FilterOutputStream.java:153)
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator.flush(UTF8JsonGenerator.java:1187)
+	at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1009)
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.writeInternal(AbstractJackson2HttpMessageConverter.java:454)
+	at org.springframework.http.converter.AbstractGenericHttpMessageConverter.write(AbstractGenericHttpMessageConverter.java:104)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:290)
+	at org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:219)
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:78)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:135)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:103)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:711)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:461)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:385)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:313)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:403)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:249)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.io.IOException: 你的主机中的软件中止了一个已建立的连接。
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:51)
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:113)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:79)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:50)
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:462)
+	at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:135)
+	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1363)
+	at org.apache.tomcat.util.net.SocketWrapperBase.doWrite(SocketWrapperBase.java:766)
+	at org.apache.tomcat.util.net.SocketWrapperBase.flushBlocking(SocketWrapperBase.java:719)
+	at org.apache.tomcat.util.net.SocketWrapperBase.flush(SocketWrapperBase.java:709)
+	at org.apache.coyote.http11.Http11OutputBuffer$SocketOutputBuffer.flush(Http11OutputBuffer.java:573)
+	at org.apache.coyote.http11.filters.ChunkedOutputFilter.flush(ChunkedOutputFilter.java:157)
+	at org.apache.coyote.http11.Http11OutputBuffer.flush(Http11OutputBuffer.java:221)
+	at org.apache.coyote.http11.Http11Processor.flush(Http11Processor.java:1205)
+	at org.apache.coyote.AbstractProcessor.action(AbstractProcessor.java:402)
+	at org.apache.coyote.Response.action(Response.java:209)
+	at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:306)
+	... 52 common frames omitted
+2023-07-25 11:52:20,138 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 110] 加载客户端报文,客户端id:ccfc81c0,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 11:52:42,654 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 115] TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 11:54:43,235 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 2692 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 11:54:43,239 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 11:54:44,263 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 11:54:44,377 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1082 ms
+2023-07-25 11:54:45,318 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 11:54:45,319 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 11:54:45,320 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 11:54:45,339 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.667 seconds (JVM running for 3.752)
+2023-07-25 11:54:45,365 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 11:54:45,367 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 11:56:14,718 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 14412 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 11:56:14,720 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 11:56:15,677 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 11:56:15,684 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:56:15,685 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 11:56:15,685 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 11:56:15,782 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 11:56:15,782 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1025 ms
+2023-07-25 11:56:16,710 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 11:56:16,725 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 11:56:16,725 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 11:56:16,726 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 11:56:16,727 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 11:56:16,737 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.57 seconds (JVM running for 3.587)
+2023-07-25 11:56:16,764 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 11:56:16,765 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 13:45:48,943 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 2404 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 13:45:48,946 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 13:45:50,227 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 13:45:50,235 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 13:45:50,236 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 13:45:50,236 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 13:45:50,334 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 13:45:50,335 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1342 ms
+2023-07-25 13:45:51,315 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 13:45:51,332 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 13:45:51,333 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 13:45:51,334 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 13:45:51,335 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 13:45:51,345 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.95 seconds (JVM running for 4.02)
+2023-07-25 13:45:51,377 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 13:45:51,378 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 13:46:05,759 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 66] ChannelHandlerContext(NettyServerHandler#0, [id: 0x969e2354, L:/127.0.0.1:20000 - R:/127.0.0.1:57047])
+2023-07-25 13:46:05,761 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 67] [id: 0x969e2354, L:/127.0.0.1:20000 - R:/127.0.0.1:57047]
+2023-07-25 13:46:05,761 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 72] 客户端:969e2354,连接netty服务器[IP:127.0.0.1-->PORT:57047]
+2023-07-25 13:46:05,761 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 73] channelActive连接通道数量: 1
+2023-07-25 13:46:59,364 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 110] 加载客户端报文,客户端id:969e2354,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 13:47:10,969 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 115] TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:20:33,641 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 19020 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 14:20:33,645 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 14:20:34,832 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 14:20:34,839 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:20:34,840 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 14:20:34,840 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 14:20:34,946 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 14:20:34,946 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1247 ms
+2023-07-25 14:20:35,943 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:20:35,958 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 14:20:35,959 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 14:20:35,960 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 14:20:35,961 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 14:20:35,970 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.896 seconds (JVM running for 3.891)
+2023-07-25 14:20:35,997 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 14:20:35,998 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 14:20:44,924 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 75] ChannelHandlerContext(NettyServerHandler#0, [id: 0x719984e3, L:/127.0.0.1:20000 - R:/127.0.0.1:60285])
+2023-07-25 14:20:44,925 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 76] [id: 0x719984e3, L:/127.0.0.1:20000 - R:/127.0.0.1:60285]
+2023-07-25 14:20:44,925 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 81] 客户端:719984e3,连接netty服务器[IP:127.0.0.1-->PORT:60285]
+2023-07-25 14:20:44,925 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 82] channelActive连接通道数量: 1
+2023-07-25 14:21:20,320 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:719984e3,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:21:23,078 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 126] TenByteEntity(mainboardAddress=1, airConditionerCount=4, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:21:23,150 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 14:21:23,448 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 14:21:52,524 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:719984e3,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:21:56,373 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 126] TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:29:34,644 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-25 14:29:34,656 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-25 14:29:40,781 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 19856 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 14:29:40,785 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 14:29:41,823 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 14:29:41,831 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:29:41,831 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 14:29:41,832 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 14:29:41,932 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 14:29:41,933 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1101 ms
+2023-07-25 14:29:42,905 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:29:42,920 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 14:29:42,921 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 14:29:42,922 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 14:29:42,922 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 14:29:42,933 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.723 seconds (JVM running for 3.691)
+2023-07-25 14:29:42,960 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 14:29:42,961 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 14:29:49,803 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 75] ChannelHandlerContext(NettyServerHandler#0, [id: 0x731ff2c5, L:/127.0.0.1:20000 - R:/127.0.0.1:61217])
+2023-07-25 14:29:49,804 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 76] [id: 0x731ff2c5, L:/127.0.0.1:20000 - R:/127.0.0.1:61217]
+2023-07-25 14:29:49,805 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 81] 客户端:731ff2c5,连接netty服务器[IP:127.0.0.1-->PORT:61217]
+2023-07-25 14:29:49,805 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 82] channelActive连接通道数量: 1
+2023-07-25 14:30:23,506 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:731ff2c5,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:30:23,519 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 126] TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:30:23,580 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 14:30:23,823 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 14:36:31,931 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:36:31,932 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 14:36:31,934 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:731ff2c5：AA 01 04 01 00 00 00 FF
+2023-07-25 14:36:31,938 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:731ff2c5,回写成功:AA 01 04 01 00 00 00 FF
+2023-07-25 14:37:59,733 INFO [http-nio-8888-exec-3] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:37:59,734 INFO [http-nio-8888-exec-3] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 14:37:59,734 INFO [http-nio-8888-exec-3] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:731ff2c5：AA 01 04 01 00 00 00 FF
+2023-07-25 14:37:59,735 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:731ff2c5,回写成功:AA 01 04 01 00 00 00 FF
+2023-07-25 14:38:43,716 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:731ff2c5,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:38:43,729 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 160] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:39:20,939 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-25 14:39:20,953 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-25 14:39:51,516 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 19492 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 14:39:51,519 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 14:39:52,570 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 14:39:52,577 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:39:52,578 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 14:39:52,578 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 14:39:52,677 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 14:39:52,677 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1115 ms
+2023-07-25 14:39:53,665 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:39:53,680 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 14:39:53,680 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 14:39:53,681 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 14:39:53,682 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 14:39:53,691 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.739 seconds (JVM running for 3.63)
+2023-07-25 14:39:53,720 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 14:39:53,721 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 14:40:05,846 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 75] ChannelHandlerContext(NettyServerHandler#0, [id: 0x7c3b12e3, L:/127.0.0.1:20000 - R:/127.0.0.1:62296])
+2023-07-25 14:40:05,848 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 76] [id: 0x7c3b12e3, L:/127.0.0.1:20000 - R:/127.0.0.1:62296]
+2023-07-25 14:40:05,848 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 81] 客户端:7c3b12e3,连接netty服务器[IP:127.0.0.1-->PORT:62296]
+2023-07-25 14:40:05,848 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 82] channelActive连接通道数量: 1
+2023-07-25 14:40:59,894 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:40:59,895 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address11111111null
+2023-07-25 14:40:59,907 ERROR [http-nio-8888-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet] [DirectJDKLog.java : 175] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.NettyApplication.listen.DtuManage.sendMsg(DtuManage.java:49)
+	at com.NettyApplication.controller.AirLinkController.set(AirLinkController.java:45)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2023-07-25 14:41:41,224 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:41:41,225 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address11111111null
+2023-07-25 14:41:41,226 ERROR [http-nio-8888-exec-2] o.a.c.c.C.[.[.[.[dispatcherServlet] [DirectJDKLog.java : 175] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.NettyApplication.listen.DtuManage.sendMsg(DtuManage.java:49)
+	at com.NettyApplication.controller.AirLinkController.set(AirLinkController.java:45)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2023-07-25 14:42:42,503 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 281] 7c3b12e3:发生了错误,此连接被关闭。此时连通数量:0
+2023-07-25 14:43:08,260 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 99] 断开1客户端:7c3b12e3,连接netty服务器[IP:127.0.0.1-->PORT:62296]
+2023-07-25 14:43:08,261 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 104] 断开2客户端:7c3b12e3,连接netty服务器[IP:127.0.0.1-->PORT:62296]
+2023-07-25 14:43:08,264 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 105] channelInactive连接通道数量: 0
+2023-07-25 14:43:12,353 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 75] ChannelHandlerContext(NettyServerHandler#0, [id: 0x2bb969ad, L:/127.0.0.1:20000 - R:/127.0.0.1:62716])
+2023-07-25 14:43:13,724 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 76] [id: 0x2bb969ad, L:/127.0.0.1:20000 - R:/127.0.0.1:62716]
+2023-07-25 14:43:13,725 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 81] 客户端:2bb969ad,连接netty服务器[IP:127.0.0.1-->PORT:62716]
+2023-07-25 14:43:13,725 INFO [nioEventLoopGroup-3-2] c.N.listen.NettyServerHandler [NettyServerHandler.java : 82] channelActive连接通道数量: 1
+2023-07-25 14:43:28,541 INFO [http-nio-8888-exec-4] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:43:28,542 INFO [http-nio-8888-exec-4] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address11111111null
+2023-07-25 14:43:28,544 ERROR [http-nio-8888-exec-4] o.a.c.c.C.[.[.[.[dispatcherServlet] [DirectJDKLog.java : 175] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.NettyApplication.listen.DtuManage.sendMsg(DtuManage.java:49)
+	at com.NettyApplication.controller.AirLinkController.set(AirLinkController.java:45)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2023-07-25 14:44:26,892 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 2100 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 14:44:26,895 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 14:44:28,019 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 14:44:28,027 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:44:28,028 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 14:44:28,028 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 14:44:28,134 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 14:44:28,134 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1194 ms
+2023-07-25 14:44:29,158 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 14:44:29,173 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 14:44:29,173 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 14:44:29,174 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 14:44:29,175 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 14:44:29,184 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.907 seconds (JVM running for 4.039)
+2023-07-25 14:44:29,211 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 14:44:29,213 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 14:44:32,939 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 75] ChannelHandlerContext(NettyServerHandler#0, [id: 0xeacede61, L:/127.0.0.1:20000 - R:/127.0.0.1:63014])
+2023-07-25 14:44:32,940 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 76] [id: 0xeacede61, L:/127.0.0.1:20000 - R:/127.0.0.1:63014]
+2023-07-25 14:44:32,941 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 81] 客户端:eacede61,连接netty服务器[IP:127.0.0.1-->PORT:63014]
+2023-07-25 14:44:32,941 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 82] channelActive连接通道数量: 1
+2023-07-25 14:44:46,445 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:44:46,447 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address11111111null
+2023-07-25 14:44:46,459 ERROR [http-nio-8888-exec-1] o.a.c.c.C.[.[.[.[dispatcherServlet] [DirectJDKLog.java : 175] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.NettyApplication.listen.DtuManage.sendMsg(DtuManage.java:49)
+	at com.NettyApplication.controller.AirLinkController.set(AirLinkController.java:45)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:655)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2023-07-25 14:45:22,487 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:eacede61,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:45:22,501 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 126] TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 14:45:22,571 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 14:45:22,810 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 14:45:37,501 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 14:45:37,502 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 14:45:37,505 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:eacede61：AA 01 04 01 00 00 00 FF
+2023-07-25 14:45:37,509 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:eacede61,回写成功:AA 01 04 01 00 00 00 FF
+2023-07-25 14:46:12,746 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:eacede61,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:50:21,893 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 158] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:50:21,893 WARN [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool [HikariPool.java : 788] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m28s970ms184µs100ns).
+2023-07-25 14:50:25,225 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:eacede61,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:50:27,863 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 158] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:57:17,752 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:eacede61,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:57:20,948 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 158] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 14:58:25,325 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 121] 加载客户端报文,客户端id:eacede61,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 15:00:59,285 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 158] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 15:00:59,285 WARN [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool [HikariPool.java : 788] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m33s959ms100µs300ns).
+2023-07-25 15:05:10,250 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-25 15:05:10,262 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-25 15:05:16,221 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 18112 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 15:05:16,224 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 15:05:17,272 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 15:05:17,281 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 15:05:17,281 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 15:05:17,282 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 15:05:17,383 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 15:05:17,383 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1117 ms
+2023-07-25 15:05:18,406 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 15:05:18,422 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 15:05:18,423 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 15:05:18,423 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 0 ms
+2023-07-25 15:05:18,424 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 15:05:18,434 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.725 seconds (JVM running for 3.732)
+2023-07-25 15:05:18,462 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 15:05:18,463 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 15:05:23,558 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 76] ChannelHandlerContext(NettyServerHandler#0, [id: 0xd8e65e83, L:/127.0.0.1:20000 - R:/127.0.0.1:65154])
+2023-07-25 15:05:23,559 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 77] [id: 0xd8e65e83, L:/127.0.0.1:20000 - R:/127.0.0.1:65154]
+2023-07-25 15:05:23,559 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 82] 客户端:d8e65e83,连接netty服务器[IP:127.0.0.1-->PORT:65154]
+2023-07-25 15:05:23,559 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 83] channelActive连接通道数量: 1
+2023-07-25 15:05:39,045 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 122] 加载客户端报文,客户端id:d8e65e83,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 15:05:39,053 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 127] TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 15:05:39,114 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 15:05:39,368 INFO [nioEventLoopGroup-3-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 15:06:00,941 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 15:06:00,942 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 15:06:01,487 INFO [http-nio-8888-exec-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:d8e65e83：AA 01 04 01 00 00 00 FF
+2023-07-25 15:06:01,491 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:d8e65e83,回写成功:AA 01 04 01 00 00 00 FF
+2023-07-25 15:06:10,193 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 122] 加载客户端报文,客户端id:d8e65e83,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 15:06:13,921 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 159] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-1)
+2023-07-25 15:09:56,958 WARN [http-nio-8888-exec-4] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:22,794 WARN [http-nio-8888-exec-9] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:23,809 WARN [http-nio-8888-exec-10] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:30,403 WARN [http-nio-8888-exec-2] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:35,434 WARN [http-nio-8888-exec-3] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:38,553 WARN [http-nio-8888-exec-4] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:43,181 WARN [http-nio-8888-exec-5] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:46,025 WARN [http-nio-8888-exec-6] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:48,546 WARN [http-nio-8888-exec-7] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:12:50,369 WARN [http-nio-8888-exec-8] o.s.w.s.m.s.DefaultHandlerExceptionResolver [AbstractHandlerExceptionResolver.java : 208] Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2023-07-25 15:20:16,079 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-25 15:20:16,091 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-25 15:20:32,900 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 11112 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 15:20:32,904 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 15:20:34,057 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 15:20:34,066 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 15:20:34,067 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 15:20:34,067 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 15:20:34,174 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 15:20:34,174 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1214 ms
+2023-07-25 15:20:35,239 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 15:20:35,254 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 15:20:35,254 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 15:20:35,255 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 15:20:35,256 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 15:20:35,266 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.96 seconds (JVM running for 3.977)
+2023-07-25 15:20:35,297 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 15:20:35,299 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 15:21:12,195 INFO [http-nio-8888-exec-9] o.s.api.AbstractOpenApiResource [AbstractOpenApiResource.java : 367] Init duration for springdoc-openapi is: 248 ms
+2023-07-25 15:21:20,760 INFO [http-nio-8888-exec-10] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 15:21:21,042 INFO [http-nio-8888-exec-10] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 15:21:37,963 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 77] ChannelHandlerContext(NettyServerHandler#0, [id: 0xa728378a, L:/127.0.0.1:20000 - R:/127.0.0.1:50402])
+2023-07-25 15:21:37,964 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 78] [id: 0xa728378a, L:/127.0.0.1:20000 - R:/127.0.0.1:50402]
+2023-07-25 15:21:37,964 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 83] 客户端:a728378a,连接netty服务器[IP:127.0.0.1-->PORT:50402]
+2023-07-25 15:21:37,964 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 84] channelActive连接通道数量: 1
+2023-07-25 15:21:50,859 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 123] 加载客户端报文,客户端id:a728378a,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 15:21:50,868 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 128] TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 15:22:57,963 INFO [http-nio-8888-exec-8] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 15:22:57,963 INFO [http-nio-8888-exec-8] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 15:22:58,703 INFO [http-nio-8888-exec-8] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:a728378a：AA 01 04 01 00 00 00 FE
+2023-07-25 15:22:58,707 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:a728378a,回写成功:AA 01 04 01 00 00 00 FE
+2023-07-25 15:23:02,079 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 123] 加载客户端报文,客户端id:a728378a,客户端消息:EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-2)
+2023-07-25 15:23:03,768 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 160] EightByteEntity(header=-86, type=1, address=4, status1=1, status2=0, status3=0, status4=0, ending=-2)
+2023-07-25 16:14:24,762 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 350] HikariPool-1 - Shutdown initiated...
+2023-07-25 16:14:24,772 INFO [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 352] HikariPool-1 - Shutdown completed.
+2023-07-25 16:14:55,206 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 11084 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 16:14:55,208 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 16:14:56,204 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 16:14:56,216 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 16:14:56,217 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 16:14:56,217 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 16:14:56,310 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 16:14:56,311 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1069 ms
+2023-07-25 16:14:57,275 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 16:14:57,288 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 16:14:57,288 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 16:14:57,288 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 0 ms
+2023-07-25 16:14:57,289 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 16:14:57,298 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.585 seconds (JVM running for 3.603)
+2023-07-25 16:14:57,323 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 16:14:57,324 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 16:15:07,433 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 55] Starting NettyApplication using Java 11.0.15 on Phoo with PID 13320 (D:\ayr\hardwareai\target\classes started by Phoo in D:\ayr\hardwareai)
+2023-07-25 16:15:07,435 INFO [main] c.NettyApplication.NettyApplication [SpringApplication.java : 639] The following profiles are active: dev
+2023-07-25 16:15:08,492 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 108] Tomcat initialized with port(s): 8888 (http)
+2023-07-25 16:15:08,501 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Initializing ProtocolHandler ["http-nio-8888"]
+2023-07-25 16:15:08,502 INFO [main] o.a.catalina.core.StandardService [DirectJDKLog.java : 173] Starting service [Tomcat]
+2023-07-25 16:15:08,502 INFO [main] o.a.catalina.core.StandardEngine [DirectJDKLog.java : 173] Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-07-25 16:15:08,605 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring embedded WebApplicationContext
+2023-07-25 16:15:08,605 INFO [main] o.s.b.w.s.c.ServletWebServerApplicationContext [ServletWebServerApplicationContext.java : 290] Root WebApplicationContext: initialization completed in 1127 ms
+2023-07-25 16:15:09,688 INFO [main] o.a.coyote.http11.Http11NioProtocol [DirectJDKLog.java : 173] Starting ProtocolHandler ["http-nio-8888"]
+2023-07-25 16:15:09,703 INFO [main] o.a.c.c.C.[Tomcat].[localhost].[/] [DirectJDKLog.java : 173] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 16:15:09,704 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 525] Initializing Servlet 'dispatcherServlet'
+2023-07-25 16:15:09,705 INFO [main] o.s.web.servlet.DispatcherServlet [FrameworkServlet.java : 547] Completed initialization in 1 ms
+2023-07-25 16:15:09,706 INFO [main] o.s.b.w.e.tomcat.TomcatWebServer [TomcatWebServer.java : 220] Tomcat started on port(s): 8888 (http) with context path ''
+2023-07-25 16:15:09,716 INFO [main] c.NettyApplication.NettyApplication [StartupInfoLogger.java : 61] Started NettyApplication in 2.896 seconds (JVM running for 4.412)
+2023-07-25 16:15:09,746 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 42] 
+-----------------------任务服务启动------------------------
+	               当前正在启动的0个任务
+-----------------------------------------------------------
+	
+2023-07-25 16:15:09,748 INFO [main] c.N.listen.LaunchRunner [LaunchRunner.java : 30] netty服务器启动地址:127.0.0.1
+2023-07-25 16:15:26,829 INFO [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 110] HikariPool-1 - Starting...
+2023-07-25 16:15:27,088 INFO [http-nio-8888-exec-1] com.zaxxer.hikari.HikariDataSource [HikariDataSource.java : 123] HikariPool-1 - Start completed.
+2023-07-25 16:16:09,834 ERROR [http-nio-8888-exec-2] o.a.c.c.C.[.[.[.[dispatcherServlet] [DirectJDKLog.java : 175] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.IllegalArgumentException: 空调操作不能为空] with root cause
+java.lang.IllegalArgumentException: 空调操作不能为空
+	at org.springframework.util.Assert.notNull(Assert.java:201)
+	at com.NettyApplication.controller.DeviceController.setAir(DeviceController.java:36)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2023-07-25 16:16:57,116 WARN [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool [HikariPool.java : 788] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=47s308ms438µs900ns).
+2023-07-25 16:17:42,495 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 77] ChannelHandlerContext(NettyServerHandler#0, [id: 0x680a8fde, L:/127.0.0.1:20000 - R:/127.0.0.1:60414])
+2023-07-25 16:17:42,496 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 78] [id: 0x680a8fde, L:/127.0.0.1:20000 - R:/127.0.0.1:60414]
+2023-07-25 16:17:42,496 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 83] 客户端:680a8fde,连接netty服务器[IP:127.0.0.1-->PORT:60414]
+2023-07-25 16:17:42,496 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 84] channelActive连接通道数量: 1
+2023-07-25 16:17:59,418 INFO [http-nio-8888-exec-6] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 16:17:59,419 INFO [http-nio-8888-exec-6] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address11111111null
+2023-07-25 16:18:00,190 ERROR [http-nio-8888-exec-6] o.a.c.c.C.[.[.[.[dispatcherServlet] [DirectJDKLog.java : 175] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at com.NettyApplication.listen.DtuManage.sendMsg(DtuManage.java:49)
+	at com.NettyApplication.controller.DeviceController.setAir(DeviceController.java:53)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:540)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:382)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:895)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1722)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2023-07-25 16:18:17,613 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 123] 加载客户端报文,客户端id:680a8fde,客户端消息:TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 16:18:17,626 INFO [nioEventLoopGroup-3-1] c.N.listen.NettyServerHandler [NettyServerHandler.java : 128] TenByteEntity(mainboardAddress=1, airConditionerCount=6, doorLockCount=0, curtainCount=0, window=0, spare1=0, spare2=0, spare3=0, spare4=0)
+2023-07-25 16:18:30,368 INFO [http-nio-8888-exec-4] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 16:18:30,369 INFO [http-nio-8888-exec-4] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 16:18:30,908 INFO [http-nio-8888-exec-4] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:680a8fde：AA 01 01 01 00 00 00 FE
+2023-07-25 16:18:30,912 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:680a8fde,回写成功:AA 01 01 01 00 00 00 FE
+2023-07-25 16:18:45,667 INFO [http-nio-8888-exec-3] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 16:18:45,667 INFO [http-nio-8888-exec-3] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 16:18:45,831 INFO [http-nio-8888-exec-3] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:680a8fde：AA 01 01 02 00 00 00 FE
+2023-07-25 16:18:45,832 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:680a8fde,回写成功:AA 01 01 02 00 00 00 FE
+2023-07-25 16:18:52,856 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 16:18:52,856 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 16:18:53,042 INFO [http-nio-8888-exec-2] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:680a8fde：AA 01 01 05 00 00 00 FE
+2023-07-25 16:18:53,043 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:680a8fde,回写成功:AA 01 01 05 00 00 00 FE
+2023-07-25 16:21:09,042 INFO [http-nio-8888-exec-8] c.NettyApplication.listen.DtuManage [DtuManage.java : 46] address=========1
+2023-07-25 16:21:09,042 INFO [http-nio-8888-exec-8] c.NettyApplication.listen.DtuManage [DtuManage.java : 47] address111111111
+2023-07-25 16:21:09,211 INFO [http-nio-8888-exec-8] c.NettyApplication.listen.DtuManage [DtuManage.java : 51] 开始发送报文:680a8fde：AA 01 02 03 00 00 00 FE
+2023-07-25 16:21:09,211 INFO [nioEventLoopGroup-3-1] c.NettyApplication.listen.DtuManage [DtuManage.java : 55] 客户端:680a8fde,回写成功:AA 01 02 03 00 00 00 FE

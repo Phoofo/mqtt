@@ -48,7 +48,7 @@ public class DeviceController {
                 (byte) Integer.parseInt("FE", 16) //结尾
         };
         // 主板编号
-        short s = dto.getControlId();
+        short s = (byte) Integer.parseInt(dto.getControlId(), 16);
         // 设置硬件的状态
         dtuManage.sendMsg(msgBytes, s);
 

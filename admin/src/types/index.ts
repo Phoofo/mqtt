@@ -11,4 +11,8 @@ export interface Item {
     id: number;
     state: string;
     longitude: number;
+    controlId: string;
+    deviceId: string;
+    operation: string;
+    deviceTypeId: number;
 }
