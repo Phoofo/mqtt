@@ -40,13 +40,30 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue';
-import {  DeviceInfoList } from '@/api/index.ts'
+import { DeviceInfoList } from '@/api/index.ts'
 import type { Item } from '@/types/index.ts'
 import ConditioningModel from './components/conditioningModel.vue';
 let show = ref<boolean>(false)
 const list = ref<Item[]>([])
-let active = reactive({})
-const setTools = (item:Item) => {
+let active = reactive<Item>({
+  sate1: '',
+  number: '',
+  address: '',
+  port: '',
+  type_id: 0,
+  latitude: 0,
+  ip: '',
+  id1: 0,
+  number1: '',
+  id: 0,
+  state: '',
+  longitude: 0,
+  controlId: '',
+  deviceId: '',
+  operation: '',
+  deviceTypeId: 0,
+})
+const setTools = (item: Item) => {
   show.value = true
   active = item
 }
