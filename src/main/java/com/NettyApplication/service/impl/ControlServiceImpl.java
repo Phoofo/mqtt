@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 服务实现类
@@ -26,6 +28,7 @@ public class ControlServiceImpl extends ServiceImpl<ControlMapper, Control> impl
         Assert.notNull(control.getId(), "主控板信息不能为空");
         Control control1 = baseMapper.selectById(control.getId());
         control1.setAddress(control.getAddress());
+        control1.setLastModifiedDate(LocalDateTime.now());
         baseMapper.updateById(control1);
     }
 }
