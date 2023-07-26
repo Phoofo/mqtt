@@ -6,9 +6,10 @@ import path from 'path'
 export default defineConfig({
   base: './',
   server: {
+    host: '0.0.0.0',
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8888',
+        target: 'https://phooweb.frp.leeg.cc',
         changeOrigin: true,
         rewrite: path => path.replace('/api', '')
       }

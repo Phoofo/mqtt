@@ -28,7 +28,7 @@ interface Prop {
     item: Item
 }
 const props = defineProps<Prop>()
-const onSubmit = async (type: string) => {
+const onSubmit = async (type: number) => {
     const data = await airLinkSet({
         ...props.item,
         controlId: props.item.controlId,
