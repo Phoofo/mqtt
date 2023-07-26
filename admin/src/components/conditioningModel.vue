@@ -1,11 +1,11 @@
 <template>
     <el-dialog v-model="isShow" title="控制" width="50%">
-        <el-button type="primary" @click="onSubmit(1)">查询</el-button>
-        <el-button type="primary" @click="onSubmit(2)">开机（自动）</el-button>
-        <el-button type="primary" @click="onSubmit(3)">关机</el-button>
-        <el-button type="primary" @click="onSubmit(4)">制冷</el-button>
-        <el-button type="primary" @click="onSubmit(5)">制热</el-button>
-        <el-button type="primary" @click="onSubmit(6)">除湿</el-button>
+        <el-button type="primary" @click="onSubmit(1)" class="mx-[10px] my-[12px]">查询</el-button>
+        <el-button type="primary" @click="onSubmit(2)" class="mx-[10px] my-[12px]">开机（自动）</el-button>
+        <el-button type="primary" @click="onSubmit(3)" class="mx-[10px] my-[12px]">关机</el-button>
+        <el-button type="primary" @click="onSubmit(4)" class="mx-[10px] my-[12px]">制冷</el-button>
+        <el-button type="primary" @click="onSubmit(5)" class="mx-[10px] my-[12px]">制热</el-button>
+        <el-button type="primary" @click="onSubmit(6)" class="mx-[10px] my-[12px]">除湿</el-button>
         <template #footer>
             <span class="dialog-footer">
                 <!-- <el-button @click="isShow = false">Cancel</el-button> -->
@@ -61,4 +61,8 @@ const isShow = computed({
 
 </script>
 
-<style scoped lang='less'></style>
+<style scoped>
+::v-deep.el-button+.el-button {
+    margin-left: 10px;
+}
+</style>

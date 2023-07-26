@@ -1,5 +1,6 @@
 <template>
     <div class="mx-auto w-[80%] mt-[20px]">
+        <h2 class="text-[30px] text-center mb-[10px]">智能园区管理系统</h2>
         <el-table :data="tableData.tableList" border style="width: 100%">
             <el-table-column label="地址">
                 <template #default="{ row }">
@@ -18,7 +19,6 @@
                     {{ row.lastModifiedDate || '暂无' }}
                 </template>
             </el-table-column>
-
             <el-table-column label="操作" width="200">
                 <template #default="{ row }">
                     <el-button link type="primary" :disabled="!row.connectionStatus" @click="onUpdateDia(row)">{{
@@ -29,7 +29,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog v-model="isShow" title="Tips" width="80%">
+        <el-dialog v-model="isShow" title="查看设备" width="80%">
             <device :list="tableData.deviceList"></device>
             <!-- <el-input v-model="addressValue" placeholder="请输入要修改的地址">
                 <template #prepend>地址</template>
@@ -43,7 +43,7 @@
                 </span>
             </template> -->
         </el-dialog>
-        <el-dialog v-model="isShowAddress" title="Tips" width="50%">
+        <el-dialog v-model="isShowAddress" title="修改地址" width="50%">
             <el-input v-model="addressValue" placeholder="请输入要修改的地址">
                 <template #prepend>地址</template>
             </el-input>
