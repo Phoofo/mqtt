@@ -14,6 +14,7 @@ public class DatagramEntity {
     private String function4;
     private String ending;
 
+    public DatagramEntity(){};
     public DatagramEntity(String header, String type, String deviceNumber, String function1, String function2, String function3, String function4, String ending) {
     }
 }

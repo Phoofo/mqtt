@@ -40,15 +40,15 @@ public class DeviceController {
         byte[] msgBytes = {
                 (byte) Integer.parseInt("AA", 16),//开头
                 (byte) Integer.parseInt("01", 16),//设备类型:空调01
-                (byte) Integer.parseInt(dto.getDeviceId(), 16),//设备编号
-                (byte) Integer.parseInt(dto.getOperation(), 16),//功能:01查询;02开机(自动);03关机;04制冷;05制热;06除湿
+                dto.getDeviceId(),//设备编号
+                dto.getOperation(),//功能:01查询;02开机(自动);03关机;04制冷;05制热;06除湿
                 (byte) Integer.parseInt("00", 16),//可拓展参数
                 (byte) Integer.parseInt("00", 16),//可拓展参数
                 (byte) Integer.parseInt("00", 16),//可拓展参数
                 (byte) Integer.parseInt("FE", 16) //结尾
         };
         // 主板编号
-        short s = (byte) Integer.parseInt(dto.getControlId(), 16);
+        short s = dto.getControlId();
         // 设置硬件的状态
         dtuManage.sendMsg(msgBytes, s);
 

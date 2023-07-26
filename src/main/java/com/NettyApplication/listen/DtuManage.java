@@ -7,6 +7,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import java.util.Arrays;
@@ -44,6 +45,7 @@ public class DtuManage {
 
             System.out.println("netty中的IP"+channel.remoteAddress());
             log.info("address========="+address);
+            log.info(channelDetail.toString());
             log.info("address11111111"+channelDetail.get(channelId).get("address"));
             // 指令发送
             if(address == (Short)channelDetail.get(channelId).get("address")) {
@@ -67,14 +69,16 @@ public class DtuManage {
      * @Date 2022/8/26
      * @return void
      */
+    @Scheduled(fixedDelay = 5000) // 每隔5秒执行一次
     public void deleteInactiveConnections(){
-        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
-        if(!CollectionUtils.isEmpty(channelMap)){
-            for (Map.Entry<ChannelId, Channel> next : channelMap.entrySet()) {
+        ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
+        if(!CollectionUtils.isEmpty(channelDetail)){
+            for (Map.Entry<ChannelId, ConcurrentHashMap<String, Object>> next : channelDetail.entrySet()) {
+
                 ChannelId channelId = next.getKey();
-                Channel channel = next.getValue();
+                Channel channel = (Channel)next.getValue().get("channel");
                 if (!channel.isActive()) {
-                    channelMap.remove(channelId);
+                    channelDetail.remove(channelId);
                     log.info("客户端:{},连接已经中断",channelId);
                 }
             }

@@ -1,11 +1,11 @@
 <template>
     <el-dialog v-model="isShow" title="控制" width="50%">
-        <el-button type="primary" @click="onSubmit('01')">查询</el-button>
-        <el-button type="primary" @click="onSubmit('02')">开机（自动）</el-button>
-        <el-button type="primary" @click="onSubmit('03')">关机</el-button>
-        <el-button type="primary" @click="onSubmit('04')">制冷</el-button>
-        <el-button type="primary" @click="onSubmit('05')">制热</el-button>
-        <el-button type="primary" @click="onSubmit('06')">除湿</el-button>
+        <el-button type="primary" @click="onSubmit(1)">查询</el-button>
+        <el-button type="primary" @click="onSubmit(2)">开机（自动）</el-button>
+        <el-button type="primary" @click="onSubmit(3)">关机</el-button>
+        <el-button type="primary" @click="onSubmit(4)">制冷</el-button>
+        <el-button type="primary" @click="onSubmit(5)">制热</el-button>
+        <el-button type="primary" @click="onSubmit(6)">除湿</el-button>
         <template #footer>
             <span class="dialog-footer">
                 <!-- <el-button @click="isShow = false">Cancel</el-button> -->

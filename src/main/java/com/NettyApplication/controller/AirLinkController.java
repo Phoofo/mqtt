@@ -19,8 +19,6 @@ public class AirLinkController {
     private DtuManage dtuManage;
 
     @Operation(description = "设置空调温度/关机/开机/查询....")
-//    @Parameter(name = "id",description = "id",in = ParameterIn.HEADER,example = "1")
-//    @Parameter(name = "name",description = "name",in = ParameterIn.HEADER,example = "jack")
     @GetMapping("/set")
     public ResponseEntity<String> set() {
 
@@ -46,28 +44,4 @@ public class AirLinkController {
 
         return ResponseEntity.ok("Success!");
     }
-
-
-   /* @Operation(description = "获取硬件状态")
-//    @Parameter(name = "id",description = "id",in = ParameterIn.HEADER,example = "1")
-//    @Parameter(name = "name",description = "name",in = ParameterIn.HEADER,example = "jack")
-    @GetMapping("/get")
-    public ResponseEntity<String> getInfo(@RequestBody HardWareModel hardWare){
-        //处理发送的指令
-//        byte[] msgBytes = {(byte) 0xAA, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,0xFF};
-        System.out.println(hardWare);
-        byte[] msgBytes = {
-//                Byte.parseByte(hardWare.getHeader().substring(2), 16),
-                (byte) Integer.parseInt(hardWare.getHeader(), 16),
-                (byte) Integer.parseInt(hardWare.getAddress(), 16),
-                (byte) Integer.parseInt(hardWare.getFunction1(), 16),
-                (byte) Integer.parseInt(hardWare.getFunction2(), 16),
-                (byte) Integer.parseInt(hardWare.getFunction3(), 16),
-                (byte) Integer.parseInt(hardWare.getFunction4(), 16),
-                (byte) Integer.parseInt(hardWare.getEnd(), 16),
-        };
-        dtuManage.sendMsg(msgBytes);
-        hardWare.getHeader().getBytes();
-        return ResponseEntity.ok("Success!");
-    }*/
 }

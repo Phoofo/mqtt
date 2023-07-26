@@ -2,14 +2,7 @@ package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.NettyApplication.entity.DeviceInfo;
-import com.NettyApplication.entity.HardWare;
-import com.NettyApplication.entity.HardWareControl;
 import com.NettyApplication.service.IDeviceInfoService;
-import com.NettyApplication.service.IDeviceTypeService;
-import com.NettyApplication.service.IHardWareService;
-import com.NettyApplication.service.impl.HardWareControlServiceImpl;
-import com.NettyApplication.service.impl.HardWareServiceImpl;
-import com.NettyApplication.tool.HexConversion;
 import com.NettyApplication.toolmodel.DatagramEntity;
 import com.NettyApplication.toolmodel.EightByteEntity;
 import com.NettyApplication.toolmodel.TenByteEntity;
@@ -148,7 +141,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             DeviceInfo deviceInfo = new DeviceInfo();
                             deviceInfo.setControlId(entity.getMainboardAddress());
                             deviceInfo.setDeviceId(i);
-                            deviceInfo.setDeviceTypeId(1L);
+                            deviceInfo.setDeviceTypeId((byte)1);
                             deviceInfoService.save(deviceInfo);
                         }
                     }
@@ -180,59 +173,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     one.setLastModifiedDate(LocalDateTime.now());
                     deviceInfoService.updateById(one);
                 }
-
             }
-
         }
-//        ByteBuf response = processRequest(msg,ctx);
-
-
         // 将响应写回给客户端
         // ctx.writeAndFlush(response);
     }
-
-    private ByteBuf processRequest(DatagramEntity request, ChannelHandlerContext ctx) {
-
-        log.info("报文消息:{}", request);
-        /*
-         * 业务逻辑处理
-         * */
-        //根据IP、端口和地址设置硬件的状态
-        String socketAddress = ctx.channel().remoteAddress().toString();
-//        Map<String, String> map = new HashMap<>();
-//        for (Integer i = 0; i < request.length(); i += 2) {
-//            String substring = request.substring(i, i + 2);
-//            map.put(i.toString(),substring);
-//        }
-        // 截取 IP 地址部分
-        String ip = socketAddress.substring(1, socketAddress.indexOf(":"));
-
-        // 截取端口号部分
-        String port = socketAddress.substring(socketAddress.indexOf(":") + 1);
-        //HardWareControlServiceImpl hardWareControlServiceImpl = context.getBean(HardWareControlServiceImpl.class);
-//        try{
-//            //根据IP和端口号查询主控板的id
-////        Integer id = hardWareControlServiceImpl.getOne(Wrappers.lambdaQuery(HardWareControl.class).eq(HardWareControl::getIp, ip)
-////                .eq(HardWareControl::getPort, port)).getId();
-//        // 使用ApplicationContext获取Bean实例
-//        HardWareServiceImpl bean = context.getBean(HardWareServiceImpl.class);
-//
-//        // 跟俊主控板的id和硬件编号处理设备状态
-//            HardWare one = bean.getOne(Wrappers.lambdaQuery(HardWare.class)
-//                    .eq(HardWare::getNumber, map.get("2"))
-//            );
-//            one.setState(map.get("6"));
-//            bean.updateById(one);
-//        }catch(Exception e){
-//            log.info(e.toString());
-//        }
-
-
-        String response = "123";
-        ByteBuf respBuf = Unpooled.copiedBuffer(response, CharsetUtil.UTF_8);
-        return respBuf;
-    }
-
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         // 刷新数据并关闭连接
@@ -275,19 +220,19 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                 ctx.disconnect();
                 Channel channel = ctx.channel();
                 ChannelId id = channel.id();
-                ChannelMap.removeChannelByName(id);
+                ChannelMap.removeDetailChannelByName(id);
             } else if (event.state() == IdleState.WRITER_IDLE) {
                 log.info("Client:{}, WRITER_IDLE 写超时", socketString);
                 ctx.disconnect();
                 Channel channel = ctx.channel();
                 ChannelId id = channel.id();
-                ChannelMap.removeChannelByName(id);
+                ChannelMap.removeDetailChannelByName(id);
             } else if (event.state() == IdleState.ALL_IDLE) {
                 log.info("Client:{},ALL_IDLE 总超时", socketString);
                 ctx.disconnect();
                 Channel channel = ctx.channel();
                 ChannelId id = channel.id();
-                ChannelMap.removeChannelByName(id);
+                ChannelMap.removeDetailChannelByName(id);
             }
         }
     }

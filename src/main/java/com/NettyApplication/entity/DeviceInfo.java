@@ -41,7 +41,7 @@ public class DeviceInfo implements Serializable {
     /**
      * 设备类型ID
      */
-    private Long deviceTypeId;
+    private Byte deviceTypeId;
 
     /**
      * 状态A

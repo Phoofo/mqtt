@@ -8,17 +8,17 @@ public class AirOperationDto {
     /**
      * 主板编号
      */
-    private String controlId;
+    private short controlId;
 
     /**
      * 设备编号
      */
-    private String deviceId;
+    private byte deviceId;
 
     /**
      * 设备类型ID
      */
-    private Long deviceTypeId;
+    private byte deviceTypeId;
 
     /**
      * 空调操作
@@ -29,6 +29,6 @@ public class AirOperationDto {
      * //05制热
      * //06除湿
      */
-    private String operation;
+    private byte operation;
 
 }

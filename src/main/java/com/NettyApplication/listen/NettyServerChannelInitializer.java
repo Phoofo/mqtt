@@ -3,7 +3,10 @@ package com.NettyApplication.listen;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -24,7 +27,7 @@ public class NettyServerChannelInitializer extends ChannelInitializer<SocketChan
 
         //针对客户端，如果在1分钟时没有想服务端发送写心跳(ALL)，则主动断开
         //如果是读空闲或者写空闲，不处理,这里根据自己业务考虑使用
-//        pipeline.addLast(new IdleStateHandler(600,0,0, TimeUnit.SECONDS));
+        pipeline.addLast(new IdleStateHandler(5*60,0,0, TimeUnit.SECONDS));
         //自定义的空闲检测
         pipeline.addLast(new NettyServerHandler());
     }

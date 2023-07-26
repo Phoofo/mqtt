@@ -81,6 +81,13 @@ public class ChannelMap {
         }
         return false;
     }
+    public static boolean removeDetailChannelByName(ChannelId channelId){
+        if(CHANNEL_detail.containsKey(channelId)){
+            CHANNEL_detail.remove(channelId);
+            return true;
+        }
+        return false;
+    }
     public static void addChannelOrTenByteEntity(ChannelId channelId,ConcurrentHashMap<String, Object> TenByteEntity){
         CHANNEL_detail.put(channelId,TenByteEntity);
     }

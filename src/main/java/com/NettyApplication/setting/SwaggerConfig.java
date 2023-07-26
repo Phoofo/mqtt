@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
             // dev server
             Server devServer = new Server();
-            devServer.setUrl("https://dev");
+            devServer.setUrl("http://180.76.235.69:8888");
             devServer.setDescription("DEV");
 
             return new OpenAPI()
