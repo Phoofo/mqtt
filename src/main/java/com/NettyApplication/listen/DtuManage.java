@@ -69,7 +69,7 @@ public class DtuManage {
      * @Date 2022/8/26
      * @return void
      */
-    @Scheduled(fixedDelay = 5000) // 每隔5秒执行一次
+//    @Scheduled(fixedDelay = 5000) // 每隔5秒执行一次
     public void deleteInactiveConnections(){
         ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
         if(!CollectionUtils.isEmpty(channelDetail)){
