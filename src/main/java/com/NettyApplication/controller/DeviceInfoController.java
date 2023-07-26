@@ -1,16 +1,16 @@
 package com.NettyApplication.controller;
 
 
+import com.NettyApplication.entity.Control;
 import com.NettyApplication.entity.DeviceInfo;
+import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.setting.MapBuilder;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.stream.Collectors;
@@ -31,6 +31,8 @@ public class DeviceInfoController {
 
     @Resource
     IDeviceInfoService iDeviceInfoService;
+    @Resource
+    IControlService controlService;
 
     @Operation(description = "设备信息列表")
     @GetMapping("/list")
@@ -41,4 +43,30 @@ public class DeviceInfoController {
                 .put("data", iDeviceInfoService.list())
                 .build());
     }
+
+    @Operation(description = "主控板列表")
+    @GetMapping("/listControl")
+    public ResponseEntity<?> listControl() {
+        return ResponseEntity.ok(MapBuilder.builder()
+                .put("data", controlService.list())
+                .build());
+    }
+
+    @Operation(description = "主控板下设备信息列表")
+    @GetMapping("/listByControl")
+    public ResponseEntity<?> listControl(Short controlId) {
+        return ResponseEntity.ok(MapBuilder.builder()
+                .put("data", iDeviceInfoService.list(Wrappers.lambdaQuery(DeviceInfo.class)
+                        .eq(DeviceInfo::getControlId, controlId)))
+                .build());
+    }
+
+    @Operation(description = "配置主控板位置")
+    @PostMapping("/configurationLocation")
+    public ResponseEntity<?> configurationLocation(@RequestBody Control control) {
+        controlService.configurationLocation(control);
+        return ResponseEntity.ok(MapBuilder.builder()
+                .build());
+    }
+
 }

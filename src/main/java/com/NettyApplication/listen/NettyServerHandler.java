@@ -1,7 +1,9 @@
 package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.NettyApplication.entity.Control;
 import com.NettyApplication.entity.DeviceInfo;
+import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.toolmodel.DatagramEntity;
 import com.NettyApplication.toolmodel.EightByteEntity;
@@ -124,6 +126,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
             ConcurrentHashMap<String, Object> stringObjectConcurrentHashMap = channelDetail.get(ctx.channel().id());
             stringObjectConcurrentHashMap.put("address", entity.getMainboardAddress());
             if (ObjectUtil.isNotNull(entity.getMainboardAddress())) {
+                // 更新/新增主板信息
+                IControlService controlService = context.getBean(IControlService.class);
+                Control one = controlService.getById(entity.getMainboardAddress());
+                if (ObjectUtil.isNotNull(one)) {
+                    one.setConnectionStatus(true);
+                    one.setLastModifiedDate(LocalDateTime.now());
+                    controlService.updateById(one);
+                } else {
+                    Control control = new Control();
+                    control.setId(entity.getMainboardAddress());
+                    control.setConnectionStatus(true);
+                    control.setCreatedDate(LocalDateTime.now());
+                    controlService.save(control);
+                }
                 IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
                 if (ObjectUtil.isNotNull(entity.getAirConditionerCount())) {
                     long count = deviceInfoService.count(Wrappers.lambdaQuery(DeviceInfo.class)
@@ -141,7 +157,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             DeviceInfo deviceInfo = new DeviceInfo();
                             deviceInfo.setControlId(entity.getMainboardAddress());
                             deviceInfo.setDeviceId(i);
-                            deviceInfo.setDeviceTypeId((byte)1);
+                            deviceInfo.setDeviceTypeId((byte) 1);
                             deviceInfoService.save(deviceInfo);
                         }
                     }
@@ -178,6 +194,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
         // 将响应写回给客户端
         // ctx.writeAndFlush(response);
     }
+
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         // 刷新数据并关闭连接
@@ -220,20 +237,44 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                 ctx.disconnect();
                 Channel channel = ctx.channel();
                 ChannelId id = channel.id();
+                connectionDisconnected(ctx);
                 ChannelMap.removeDetailChannelByName(id);
             } else if (event.state() == IdleState.WRITER_IDLE) {
                 log.info("Client:{}, WRITER_IDLE 写超时", socketString);
                 ctx.disconnect();
                 Channel channel = ctx.channel();
                 ChannelId id = channel.id();
+                connectionDisconnected(ctx);
                 ChannelMap.removeDetailChannelByName(id);
             } else if (event.state() == IdleState.ALL_IDLE) {
                 log.info("Client:{},ALL_IDLE 总超时", socketString);
                 ctx.disconnect();
                 Channel channel = ctx.channel();
                 ChannelId id = channel.id();
+                connectionDisconnected(ctx);
                 ChannelMap.removeDetailChannelByName(id);
             }
+        }
+    }
+
+    /**
+     * 主控板连接状态断开
+     *
+     * @param ctx
+     * @return
+     */
+    private void connectionDisconnected(ChannelHandlerContext ctx) {
+        IControlService controlService = context.getBean(IControlService.class);
+        ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
+        if (CollectionUtils.isEmpty(channelDetail)) {
+            return;
+        }
+        //获取设备信息
+        Short address = (Short) channelDetail.get(ctx.channel().id()).get("address");
+        Control one = controlService.getById(address);
+        if (ObjectUtil.isNotNull(one)) {
+            one.setConnectionStatus(false);
+            controlService.updateById(one);
         }
     }
 

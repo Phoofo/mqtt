@@ -47,6 +47,7 @@ public class DeviceController {
                 (byte) Integer.parseInt("00", 16),//可拓展参数
                 (byte) Integer.parseInt("FE", 16) //结尾
         };
+        System.out.println(msgBytes);
         // 主板编号
         short s = dto.getControlId();
         // 设置硬件的状态
