@@ -14,11 +14,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 设备类型
+ * 操作报文记录
  */
-@TableName("t_device_info")
+@TableName("t_operate_log")
 @Data
-public class DeviceInfo implements Serializable {
+public class OperateLog implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -44,29 +44,9 @@ public class DeviceInfo implements Serializable {
     private Byte deviceTypeId;
 
     /**
-     * 状态A
+     * 是否回写
      */
-    private Byte stateA;
-
-    /**
-     * 状态B
-     */
-    private Byte stateB;
-
-    /**
-     * 状态C
-     */
-    private Byte stateC;
-
-    /**
-     * 状态D
-     */
-    private Byte stateD;
-
-    /**
-     * 连接状态
-     */
-    private Boolean isConnect;
+    private Boolean writeBack;
 
     /**
      * 创建时间*

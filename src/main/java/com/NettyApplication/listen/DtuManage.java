@@ -1,7 +1,12 @@
 package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.NettyApplication.entity.DeviceInfo;
+import com.NettyApplication.entity.OperateLog;
+import com.NettyApplication.service.IDeviceInfoService;
+import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.tool.HexConversion;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -11,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +31,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class DtuManage {
-
+    @Resource
+    private IOperateLogService service;
+    @Resource
+    private IDeviceInfoService deviceInfoService;
 
     public void sendMsg(byte[] msgBytes, short address) {
 //        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
@@ -57,6 +67,8 @@ public class DtuManage {
                 ByteBuf buffer = Unpooled.buffer();
                 log.info("开始发送报文:{}", channelId + "：" + HexConversion.byteArrayToHexString(msgBytes));
                 buffer.writeBytes(msgBytes);
+                // 记录发送指令防止丢包
+                recordSending(msgBytes, address);
                 channel.writeAndFlush(buffer).addListener((ChannelFutureListener) future -> {
                     if (future.isSuccess()) {
                         log.info("客户端:{},回写成功:{}", channelId, HexConversion.byteArrayToHexString(msgBytes));
@@ -66,6 +78,45 @@ public class DtuManage {
                 });
             }
         }
+    }
+
+    /**
+     * 记录发送指令防止丢包
+     *
+     * @param msgByte 操作报文
+     * @param address 操作主板编码
+     */
+    private void recordSending(byte[] msgByte, short address) {
+        long count = service.count(Wrappers.lambdaQuery(OperateLog.class)
+                .eq(OperateLog::getControlId, address)
+                .eq(OperateLog::getDeviceId, msgByte[2])
+                .eq(OperateLog::getDeviceTypeId, msgByte[1])
+                .eq(OperateLog::getWriteBack, false)
+        );
+        if (count >= 3) {
+            //获取设备信息
+            DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
+                    .eq(DeviceInfo::getControlId, address)//主板编码
+                    .eq(DeviceInfo::getDeviceId, msgByte[2])//设备编码
+                    .eq(DeviceInfo::getDeviceTypeId, msgByte[1])//设备类型
+            );
+            //更新设备信息
+            if (ObjectUtil.isNotNull(one)) {
+                one.setIsConnect(Boolean.FALSE);
+                one.setLastModifiedDate(LocalDateTime.now());
+                deviceInfoService.updateById(one);
+            }
+            log.error("主板{},设备类型为{}的设备{}已失去连接", address, msgByte[1], msgByte[2]);
+
+        } else {
+            OperateLog operateLog = new OperateLog();
+            operateLog.setControlId(address);
+            operateLog.setDeviceId(msgByte[2]);
+            operateLog.setDeviceTypeId(msgByte[1]);
+            operateLog.setWriteBack(false);
+            service.save(operateLog);
+        }
+
     }
 
     /**

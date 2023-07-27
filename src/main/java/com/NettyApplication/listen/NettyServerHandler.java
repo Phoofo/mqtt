@@ -3,8 +3,10 @@ package com.NettyApplication.listen;
 import cn.hutool.core.util.ObjectUtil;
 import com.NettyApplication.entity.Control;
 import com.NettyApplication.entity.DeviceInfo;
+import com.NettyApplication.entity.OperateLog;
 import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
+import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.toolmodel.DatagramEntity;
 import com.NettyApplication.toolmodel.EightByteEntity;
 import com.NettyApplication.toolmodel.TenByteEntity;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.net.InetSocketAddress;
@@ -125,6 +128,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
             ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
             ConcurrentHashMap<String, Object> stringObjectConcurrentHashMap = channelDetail.get(ctx.channel().id());
             stringObjectConcurrentHashMap.put("address", entity.getMainboardAddress());
+            //注册主板信息不为空
             if (ObjectUtil.isNotNull(entity.getMainboardAddress())) {
                 // 更新/新增主板信息
                 IControlService controlService = context.getBean(IControlService.class);
@@ -141,7 +145,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     controlService.save(control);
                 }
                 IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
-                if (ObjectUtil.isNotNull(entity.getAirConditionerCount())) {
+                if (ObjectUtil.isNotNull(entity.getAirConditionerCount())) {//空调信息不为空
                     long count = deviceInfoService.count(Wrappers.lambdaQuery(DeviceInfo.class)
                             .eq(DeviceInfo::getControlId, entity.getMainboardAddress())
                             .eq(DeviceInfo::getDeviceTypeId, 1L));
@@ -158,6 +162,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             deviceInfo.setControlId(entity.getMainboardAddress());
                             deviceInfo.setDeviceId(i);
                             deviceInfo.setDeviceTypeId((byte) 1);
+                            deviceInfo.setIsConnect(Boolean.TRUE);
                             deviceInfoService.save(deviceInfo);
                         }
                     }
@@ -186,13 +191,34 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     one.setStateB(entity.getStatus2());
                     one.setStateC(entity.getStatus3());
                     one.setStateD(entity.getStatus4());
+                    one.setIsConnect(Boolean.TRUE);
                     one.setLastModifiedDate(LocalDateTime.now());
                     deviceInfoService.updateById(one);
+                    //回写操作日志确保操作指令有回应
+                    setBack(entity, address);
                 }
             }
         }
         // 将响应写回给客户端
         // ctx.writeAndFlush(response);
+    }
+
+    @Transactional
+    void setBack(EightByteEntity entity, Short address) {
+        IOperateLogService operateLogService = context.getBean(IOperateLogService.class);
+        List<OperateLog> list = operateLogService.list(Wrappers.lambdaQuery(OperateLog.class)
+                .eq(OperateLog::getControlId, address)
+                .eq(OperateLog::getDeviceId, entity.getAddress())
+                .eq(OperateLog::getDeviceTypeId, entity.getType())
+                .eq(OperateLog::getWriteBack, false));
+        if (list.size() > 0) {
+            list.forEach(o -> {
+                o.setLastModifiedDate(LocalDateTime.now());
+                o.setWriteBack(true);
+                operateLogService.updateById(o);
+            });
+        }
+
     }
 
     @Override
