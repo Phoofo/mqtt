@@ -62,6 +62,21 @@ export const listByControl = (params?: object):Promise<any> => {
         params
     })
 }
+/**
+ * @description: 主板一键操作
+ * @fileName: index.ts 
+ * @author: snow_yp
+ * @date: 2023-07-27 09:39:45
+ */
+export const setAirBatch = (data?: object):Promise<any> => {
+    return request({
+        url: '/Device/setAirBatch',
+        method: 'post',
+        data
+    })
+}
+
+
 
 
 

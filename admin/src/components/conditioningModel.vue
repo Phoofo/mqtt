@@ -22,7 +22,7 @@ import { ElMessage } from 'element-plus'
 import { computed } from 'vue'
 import type { Item } from '@/types/index.ts'
 import { airLinkSet } from '@/api/index.ts'
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'upList'])
 interface Prop {
     modelValue: boolean,
     item: Item
@@ -56,6 +56,7 @@ const isShow = computed({
     },
     set(value) {
         emits('update:modelValue', value)
+        emits('upList')
     }
 })
 
