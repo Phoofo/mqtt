@@ -78,6 +78,7 @@ const onSubmit = async (type: number) => {
         "operation": type  // 操作编码必传
     })
     emits('upList')
+    isShow.value = false
 }
 const isStatus = (type: number) => {
     if (type === 0) {
