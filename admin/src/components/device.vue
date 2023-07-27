@@ -31,10 +31,17 @@
                     {{ isStatus(row.stateD) }}
                 </template>
             </el-table-column>
+            <el-table-column prop="isConnect" label="设备连接状态" align="center">
+                <template #default="{ row }">
+                  <el-tag v-if="row.isConnect" class="ml-2" type="info">已连接</el-tag>
+                  <el-tag v-else class="ml-2" type="danger">等待连接</el-tag>
+                </template>
+            </el-table-column>
             <el-table-column prop="stateD" label="操作" align="center">
                 <template #default="{ row }">
                     <!-- {{ row.stateD || "暂无信息" }} -->
-                    <el-button @click="setTools(row)">操作</el-button>
+<!--                    <el-button :disabled="!row.isConnect" @click="setTools(row)">操作</el-button>-->
+                    <el-button  @click="setTools(row)">操作</el-button>
                 </template>
             </el-table-column>
         </el-table>
