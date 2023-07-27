@@ -8,6 +8,7 @@ import com.NettyApplication.service.IDeviceInfoService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
  * @author p
  * @since 2023-07-25
  */
+@Slf4j
 @RestController
 @CrossOrigin
 @RequestMapping("/Device")
@@ -101,7 +103,6 @@ public class DeviceController {
                     (byte) Integer.parseInt("00", 16),//可拓展参数
                     (byte) Integer.parseInt("FE", 16) //结尾
             };
-            System.out.println(msgBytes);
             // 设置硬件的状态
             dtuManage.sendMsg(msgBytes, dto.getControlId());
         });
