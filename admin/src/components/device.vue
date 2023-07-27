@@ -64,6 +64,10 @@ import type { Item } from '@/types/index.ts'
 import ConditioningModel from './conditioningModel.vue';
 import { ref, reactive } from 'vue';
 import { setAirBatch } from '@/api/index.ts'
+interface ItemType {
+    controlId: number,
+    deviceId: number
+}
 const isShow = ref<boolean>(false)
 const onSubmit = async (type: number) => {
     await setAirBatch({
@@ -74,6 +78,7 @@ const onSubmit = async (type: number) => {
         "operation": type  // 操作编码必传
     })
     emits('upList')
+    isShow.value = false
 }
 const isStatus = (type: number) => {
     if (type === 0) {
@@ -88,7 +93,7 @@ const props = defineProps({
     list: Array
 })
 const tableData = reactive({
-    selectDateList: [],
+    selectDateList: [] as ItemType[],
 })
 const handleSelectionChange = (val: any) => {
     tableData.selectDateList = val
