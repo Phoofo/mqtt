@@ -73,6 +73,9 @@ const isShowAddress = ref<boolean>(false)
 import Device from './device.vue'
 import { listControl, configurationLocation, listByControl } from '@/api/index.ts';
 import { setAirBatch } from '@/api/index.ts'
+interface ItemObj {
+    id: number
+}
 const addressValue = ref<string>('')
 const isShowTouch = ref<boolean>(false)
 const activeId = ref(0)
@@ -82,7 +85,7 @@ let tableData = reactive({
     selectDateList: []
 })
 const activeTouch = reactive({
-    item: {}
+    item: {} as ItemObj
 })
 const onUpdateTouch = (item: any) => {
     activeTouch.item = item
