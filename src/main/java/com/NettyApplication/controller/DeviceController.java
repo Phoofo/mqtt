@@ -61,7 +61,7 @@ public class DeviceController {
         // 主板编号
         short s = dto.getControlId();
         // 设置硬件的状态
-        dtuManage.sendMsg(msgBytes, s);
+        dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
 
         return ResponseEntity.ok("Success!");
     }
@@ -104,7 +104,7 @@ public class DeviceController {
                     (byte) Integer.parseInt("FE", 16) //结尾
             };
             // 设置硬件的状态
-            dtuManage.sendMsg(msgBytes, dto.getControlId());
+            dtuManage.sendMsg(msgBytes, dto.getControlId(),deviceId, dto.getOperation(),dto.getDeviceTypeId());
         });
 
         return ResponseEntity.ok("Success!");

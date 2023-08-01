@@ -10,7 +10,7 @@ public class AirOperationDto {
     /**
      * 主板编号
      */
-    private short controlId;
+    private Short controlId;
 
     /**
      * 设备编号集合

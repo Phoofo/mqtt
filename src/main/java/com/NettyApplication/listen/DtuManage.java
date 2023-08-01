@@ -1,11 +1,14 @@
 package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.OperateLog;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.tool.HexConversion;
+import com.NettyApplication.tool.MessageProducer;
+import com.NettyApplication.toolmodel.RedisMessage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -38,8 +41,10 @@ public class DtuManage {
     private IDeviceInfoService deviceInfoService;
     @Resource
     RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    MessageProducer messageProducer;
 
-    public void sendMsg(byte[] msgBytes, short address) {
+    public void sendMsg(byte[] msgBytes, Short address, Byte deviceId, Byte operation, Byte deviceTypeId) {
 //        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
         ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
         if (CollectionUtils.isEmpty(channelDetail)) {
@@ -70,8 +75,8 @@ public class DtuManage {
                 ByteBuf buffer = Unpooled.buffer();
                 log.info("开始发送报文:{}", channelId + "：" + HexConversion.byteArrayToHexString(msgBytes));
                 buffer.writeBytes(msgBytes);
-                // 记录发送指令防止丢包
-                recordSending(msgBytes, address);
+                setValue(address, deviceId, operation, deviceTypeId, msgBytes);
+//                recordSending(msgBytes, address);
                 channel.writeAndFlush(buffer).addListener((ChannelFutureListener) future -> {
                     if (future.isSuccess()) {
                         log.info("客户端:{},回写成功:{}", channelId, HexConversion.byteArrayToHexString(msgBytes));
@@ -81,6 +86,22 @@ public class DtuManage {
                 });
             }
         }
+    }
+
+    private void setValue(Short address, Byte deviceId, Byte operation, Byte deviceTypeId, byte[] msgBytes) {
+        // 记录发送指令防止丢包
+        RedisMessage redisMessage = new RedisMessage();
+        redisMessage.setControlId(address);
+        redisMessage.setDeviceId(deviceId);
+        redisMessage.setType(deviceTypeId);
+        redisMessage.setOperation(operation);
+        redisMessage.setMsgBytes(msgBytes);
+        String key = address.toString() + deviceTypeId.toString()
+                + deviceId.toString();
+
+        messageProducer.setValue(key, JSONUtil.toJsonStr(redisMessage));
+        //增加值的访问次数
+        messageProducer.incrementValueAccessCount(key);
     }
 
     /**

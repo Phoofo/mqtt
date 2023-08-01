@@ -7,6 +7,7 @@ import com.NettyApplication.entity.OperateLog;
 import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.service.IOperateLogService;
+import com.NettyApplication.tool.MessageProducer;
 import com.NettyApplication.toolmodel.DatagramEntity;
 import com.NettyApplication.toolmodel.EightByteEntity;
 import com.NettyApplication.toolmodel.TenByteEntity;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +52,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
      * @return void
      */
     private static ApplicationContext context;
+
+    @Resource
+    MessageProducer messageProducer;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -194,8 +199,16 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     one.setIsConnect(Boolean.TRUE);
                     one.setLastModifiedDate(LocalDateTime.now());
                     deviceInfoService.updateById(one);
-                    //回写操作日志确保操作指令有回应
-                    setBack(entity, address);
+                    //redis记录清除
+                    String key = address.toString() + one.getDeviceTypeId().toString() + one.getDeviceId();
+                    Object value = messageProducer.getValue(key);
+                    if (value != null) {
+                        messageProducer.delete(key);
+                        messageProducer.removeValue(key);
+                    } else {
+
+                    }
+
                 }
             }
         }
@@ -218,7 +231,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                 operateLogService.updateById(o);
             });
         }
-
     }
 
     @Override
