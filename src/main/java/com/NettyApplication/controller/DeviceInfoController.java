@@ -6,13 +6,17 @@ import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.setting.MapBuilder;
+import com.NettyApplication.tool.MessageProducer;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +37,10 @@ public class DeviceInfoController {
     IDeviceInfoService iDeviceInfoService;
     @Resource
     IControlService controlService;
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    MessageProducer messageProducer;
 
     @Operation(description = "设备信息列表")
     @GetMapping("/list")

@@ -13,6 +13,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -35,6 +36,8 @@ public class DtuManage {
     private IOperateLogService service;
     @Resource
     private IDeviceInfoService deviceInfoService;
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
 
     public void sendMsg(byte[] msgBytes, short address) {
 //        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
