@@ -209,7 +209,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                         HashMap<String, Object> map = new HashMap<>(jsonObject);
                         map.remove(key);
                         messageProducer.setValue(address.toString(), JSONUtil.toJsonStr(map));
-                        //直接执行下个设备指令
+                        //todo 执行同主控板下的其他设备指令
 
                     }
                     messageProducer.delete(key);
