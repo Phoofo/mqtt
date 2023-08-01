@@ -1,6 +1,8 @@
 package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.Control;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.OperateLog;
@@ -10,6 +12,7 @@ import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.tool.MessageProducer;
 import com.NettyApplication.toolmodel.DatagramEntity;
 import com.NettyApplication.toolmodel.EightByteEntity;
+import com.NettyApplication.toolmodel.RedisMessage;
 import com.NettyApplication.toolmodel.TenByteEntity;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.netty.buffer.ByteBuf;
@@ -31,6 +34,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -196,9 +200,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     one.setIsConnect(Boolean.TRUE);
                     one.setLastModifiedDate(LocalDateTime.now());
                     deviceInfoService.updateById(one);
-                    //redis记录清除
+                    // redis记录清除
                     String key = address.toString() + one.getDeviceTypeId().toString() + one.getDeviceId();
                     MessageProducer messageProducer = context.getBean(MessageProducer.class);
+                    Object value = messageProducer.getValue(address.toString());
+                    if (ObjectUtil.isNotNull(value)) {
+                        JSONObject jsonObject = JSONUtil.parseObj(value.toString());
+                        HashMap<String, Object> map = new HashMap<>(jsonObject);
+                        map.remove(key);
+                        messageProducer.setValue(address.toString(), JSONUtil.toJsonStr(map));
+                        //直接执行下个设备指令
+
+                    }
                     messageProducer.delete(key);
                     messageProducer.removeValue(key);
 

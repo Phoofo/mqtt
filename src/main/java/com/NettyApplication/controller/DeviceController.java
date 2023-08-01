@@ -1,6 +1,10 @@
 package com.NettyApplication.controller;
 
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.dto.AirOperationDto;
 import com.NettyApplication.listen.DtuManage;
@@ -9,13 +13,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +44,8 @@ public class DeviceController {
     private DtuManage dtuManage;
     @Resource
     private IDeviceInfoService iDeviceInfoService;
+    @Resource
+    RedisTemplate<String, Object> redisTemplate;
 
     @Operation(description = "操作空调:/查询/开机/关机/制冷/制热/除湿")
     @PostMapping("/setAir")
@@ -57,12 +66,25 @@ public class DeviceController {
                 (byte) Integer.parseInt("00", 16),//可拓展参数
                 (byte) Integer.parseInt("FE", 16) //结尾
         };
-        System.out.println(msgBytes);
         // 主板编号
-        short s = dto.getControlId();
-        // 设置硬件的状态
-        dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+        Short s = dto.getControlId();
 
+        //封装redis记录
+        String key = dto.getControlId().toString() + dto.getDeviceTypeId().toString() + dto.getDeviceId().toString();
+        Object o = redisTemplate.opsForValue().get(s.toString());
+        if (ObjectUtil.isNotNull(o)) {
+            JSONObject jsonObject = JSONUtil.parseObj(o.toString());
+            HashMap<String, Object> hashMap = new HashMap<>(jsonObject);
+            hashMap.put(key, msgBytes);
+            redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(hashMap));
+            //加入主板队列
+        } else {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put(key, msgBytes);
+            redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(map));
+            // 设置硬件的状态
+            dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+        }
         return ResponseEntity.ok("Success!");
     }
 
@@ -90,7 +112,15 @@ public class DeviceController {
                     .eq(DeviceInfo::getControlId, dto.getControlId()))
                     .stream().map(DeviceInfo::getDeviceId).collect(Collectors.toList());
         }
+        HashMap<String, Object> map = new HashMap<>();
 
+        Object o = redisTemplate.opsForValue().get(dto.getControlId().toString());
+        if (ObjectUtil.isNotNull(o)) {
+            JSONObject jsonObject = JSONUtil.parseObj(o.toString());
+            map = new HashMap<>(jsonObject);
+        }
+
+        HashMap<String, Object> finalMap = map;
         deviceIds.forEach(deviceId -> {
             // 报文封装
             byte[] msgBytes = {
@@ -103,9 +133,25 @@ public class DeviceController {
                     (byte) Integer.parseInt("00", 16),//可拓展参数
                     (byte) Integer.parseInt("FE", 16) //结尾
             };
-            // 设置硬件的状态
-            dtuManage.sendMsg(msgBytes, dto.getControlId(),deviceId, dto.getOperation(),dto.getDeviceTypeId());
+            //key封装
+            String key = dto.getControlId().toString() + dto.getDeviceTypeId().toString() + deviceId.toString();
+            finalMap.put(key, msgBytes);
         });
+        redisTemplate.opsForValue().set(dto.getControlId().toString(), JSONUtil.toJsonStr(finalMap));
+        if (ObjectUtil.isNull(o) && deviceIds.size() > 0) {//队列为空则马上发送一个
+            byte[] msgBytes = {
+                    (byte) Integer.parseInt("AA", 16),//开头
+                    (byte) Integer.parseInt("01", 16),//设备类型:空调01
+                    deviceIds.get(0),//设备编号
+                    dto.getOperation(),//功能:01查询;02开机(自动);03关机;04制冷;05制热;06除湿
+                    (byte) Integer.parseInt("00", 16),//可拓展参数
+                    (byte) Integer.parseInt("00", 16),//可拓展参数
+                    (byte) Integer.parseInt("00", 16),//可拓展参数
+                    (byte) Integer.parseInt("FE", 16) //结尾
+            };
+            // 设置硬件的状态
+            dtuManage.sendMsg(msgBytes, dto.getControlId(), dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+        }
 
         return ResponseEntity.ok("Success!");
     }

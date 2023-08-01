@@ -22,7 +22,9 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,8 +41,6 @@ public class DtuManage {
     private IOperateLogService service;
     @Resource
     private IDeviceInfoService deviceInfoService;
-    @Resource
-    RedisTemplate<String, Object> redisTemplate;
     @Resource
     MessageProducer messageProducer;
 
@@ -75,7 +75,7 @@ public class DtuManage {
                 ByteBuf buffer = Unpooled.buffer();
                 log.info("开始发送报文:{}", channelId + "：" + HexConversion.byteArrayToHexString(msgBytes));
                 buffer.writeBytes(msgBytes);
-                setValue(address, deviceId, operation, deviceTypeId, msgBytes);
+                setValue(address, deviceId, deviceTypeId);
 //                recordSending(msgBytes, address);
                 channel.writeAndFlush(buffer).addListener((ChannelFutureListener) future -> {
                     if (future.isSuccess()) {
@@ -88,18 +88,9 @@ public class DtuManage {
         }
     }
 
-    private void setValue(Short address, Byte deviceId, Byte operation, Byte deviceTypeId, byte[] msgBytes) {
-        // 记录发送指令防止丢包
-        RedisMessage redisMessage = new RedisMessage();
-        redisMessage.setControlId(address);
-        redisMessage.setDeviceId(deviceId);
-        redisMessage.setType(deviceTypeId);
-        redisMessage.setOperation(operation);
-        redisMessage.setMsgBytes(msgBytes);
+    private void setValue(Short address, Byte deviceId, Byte deviceTypeId) {
         String key = address.toString() + deviceTypeId.toString()
                 + deviceId.toString();
-
-        messageProducer.setValue(key, JSONUtil.toJsonStr(redisMessage));
         //增加值的访问次数
         messageProducer.incrementValueAccessCount(key);
     }
@@ -165,6 +156,7 @@ public class DtuManage {
             }
         }
     }
+
 }
 
 

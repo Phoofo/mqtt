@@ -20,12 +20,12 @@ public class AirOperationDto {
     /**
      * 设备编号
      */
-    private byte deviceId;
+    private Byte deviceId;
 
     /**
      * 设备类型ID
      */
-    private byte deviceTypeId;
+    private Byte deviceTypeId;
 
     /**
      * 操作方式 ：1,批量选择;2,主板一键
@@ -41,6 +41,6 @@ public class AirOperationDto {
      * //05制热
      * //06除湿
      */
-    private byte operation;
+    private Byte operation;
 
 }
