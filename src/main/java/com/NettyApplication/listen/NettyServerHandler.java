@@ -53,9 +53,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
      */
     private static ApplicationContext context;
 
-    @Resource
-    MessageProducer messageProducer;
-
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         context = applicationContext;
@@ -201,35 +198,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     deviceInfoService.updateById(one);
                     //redis记录清除
                     String key = address.toString() + one.getDeviceTypeId().toString() + one.getDeviceId();
-                    Object value = messageProducer.getValue(key);
-                    if (value != null) {
-                        messageProducer.delete(key);
-                        messageProducer.removeValue(key);
-                    } else {
-
-                    }
+                    MessageProducer messageProducer = context.getBean(MessageProducer.class);
+                    messageProducer.delete(key);
+                    messageProducer.removeValue(key);
 
                 }
             }
-        }
-        // 将响应写回给客户端
-        // ctx.writeAndFlush(response);
-    }
-
-    @Transactional
-    void setBack(EightByteEntity entity, Short address) {
-        IOperateLogService operateLogService = context.getBean(IOperateLogService.class);
-        List<OperateLog> list = operateLogService.list(Wrappers.lambdaQuery(OperateLog.class)
-                .eq(OperateLog::getControlId, address)
-                .eq(OperateLog::getDeviceId, entity.getAddress())
-                .eq(OperateLog::getDeviceTypeId, entity.getType())
-                .eq(OperateLog::getWriteBack, false));
-        if (list.size() > 0) {
-            list.forEach(o -> {
-                o.setLastModifiedDate(LocalDateTime.now());
-                o.setWriteBack(true);
-                operateLogService.updateById(o);
-            });
         }
     }
 

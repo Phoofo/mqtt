@@ -65,8 +65,8 @@ public class ScheduledTasks {
                     one.setLastModifiedDate(LocalDateTime.now());
                     deviceInfoService.updateById(one);
                 }
-                log.warn("主板{},设备类型为{}的设备{}已失去连接", redisMessage.getControlId(),
-                        redisMessage.getType(), redisMessage.getDeviceId());
+//                log.warn("主板{},设备类型为{}的设备{}已失去连接", redisMessage.getControlId(),
+//                        redisMessage.getType(), redisMessage.getDeviceId());
             }
         }
     }
