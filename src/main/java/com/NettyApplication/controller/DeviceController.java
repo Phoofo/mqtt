@@ -9,6 +9,7 @@ import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.dto.AirOperationDto;
 import com.NettyApplication.listen.DtuManage;
 import com.NettyApplication.service.IDeviceInfoService;
+import com.NettyApplication.toolmodel.RedisMessage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,16 +73,24 @@ public class DeviceController {
 
         //封装redis记录
         String key = dto.getControlId().toString() + dto.getDeviceTypeId().toString() + dto.getDeviceId().toString();
+        RedisMessage redisMessage = new RedisMessage();
+        redisMessage.setMsgBytes(msgBytes);
+        redisMessage.setOperation(dto.getOperation());
+        redisMessage.setDeviceId(dto.getDeviceId());
+        redisMessage.setControlId(dto.getControlId());
+        //key封装
+        redisMessage.setKey(key);
+        redisMessage.setType(dto.getDeviceTypeId());
         Object o = redisTemplate.opsForValue().get(s.toString());
         if (ObjectUtil.isNotNull(o)) {
             JSONObject jsonObject = JSONUtil.parseObj(o.toString());
             HashMap<String, Object> hashMap = new HashMap<>(jsonObject);
-            hashMap.put(key, msgBytes);
+            hashMap.put(key, JSONUtil.toJsonStr(redisMessage));
             redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(hashMap));
             //加入主板队列
         } else {
             HashMap<String, Object> map = new HashMap<>();
-            map.put(key, msgBytes);
+            map.put(key, JSONUtil.toJsonStr(redisMessage));
             redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(map));
             // 设置硬件的状态
             dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
@@ -133,9 +143,17 @@ public class DeviceController {
                     (byte) Integer.parseInt("00", 16),//可拓展参数
                     (byte) Integer.parseInt("FE", 16) //结尾
             };
+            RedisMessage redisMessage = new RedisMessage();
+            redisMessage.setMsgBytes(msgBytes);
+            redisMessage.setOperation(dto.getOperation());
+            redisMessage.setDeviceId(deviceId);
+            redisMessage.setControlId(dto.getControlId());
             //key封装
             String key = dto.getControlId().toString() + dto.getDeviceTypeId().toString() + deviceId.toString();
-            finalMap.put(key, msgBytes);
+            redisMessage.setKey(key);
+            redisMessage.setType(dto.getDeviceTypeId());
+
+            finalMap.put(key, JSONUtil.toJsonStr(redisMessage));
         });
         redisTemplate.opsForValue().set(dto.getControlId().toString(), JSONUtil.toJsonStr(finalMap));
         if (ObjectUtil.isNull(o) && deviceIds.size() > 0) {//队列为空则马上发送一个

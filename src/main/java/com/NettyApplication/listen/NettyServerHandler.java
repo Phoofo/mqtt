@@ -35,7 +35,9 @@ import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -204,13 +206,28 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     String key = address.toString() + one.getDeviceTypeId().toString() + one.getDeviceId();
                     MessageProducer messageProducer = context.getBean(MessageProducer.class);
                     Object value = messageProducer.getValue(address.toString());
+                    // 获取同主板下其他的设备指令
                     if (ObjectUtil.isNotNull(value)) {
                         JSONObject jsonObject = JSONUtil.parseObj(value.toString());
                         HashMap<String, Object> map = new HashMap<>(jsonObject);
                         map.remove(key);
                         messageProducer.setValue(address.toString(), JSONUtil.toJsonStr(map));
-                        //todo 执行同主控板下的其他设备指令
-
+                        // 执行同主控板下的其他设备指令
+                        if (!map.isEmpty()) {
+                            Iterator<Map.Entry<String, Object>> iterator = map.entrySet().iterator();
+                            if (iterator.hasNext()) {
+                                // 获取顺位第一个设备指令,发生
+                                Map.Entry<String, Object> entry = iterator.next();
+                                Object entryValue = entry.getValue();
+                                RedisMessage redisMessage = JSONUtil.toBean(JSONUtil.parseObj(entryValue.toString()), RedisMessage.class);
+                                DtuManage dtuManage = context.getBean(DtuManage.class);
+                                dtuManage.sendMsg(redisMessage.getMsgBytes(), redisMessage.getControlId(),
+                                        redisMessage.getDeviceId(), redisMessage.getOperation(), redisMessage.getType());
+                            } else {
+                                // HashMap为空的情况下的处理逻辑
+                                System.out.println("HashMap为空！");
+                            }
+                        }
                     }
                     messageProducer.delete(key);
                     messageProducer.removeValue(key);
