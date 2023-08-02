@@ -9,7 +9,7 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/api': {
-        target: 'https://phooweb.frp.leeg.cc',
+        target: 'http://127.0.0.1:8888',
         changeOrigin: true,
         rewrite: path => path.replace('/api', '')
       }

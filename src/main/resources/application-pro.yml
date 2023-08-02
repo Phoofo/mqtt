@@ -14,6 +14,12 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 500MB
+  redis:
+    ## Redis数据库索引（默认为0）
+    database: 2
+    host: 192.168.0.2
+    port: 6379
+    password: 'aY)I&ikkop[F3t'
 socket:
   # 监听端口 9999
   port: 20000

@@ -126,16 +126,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        log.info("加载客户端报文,客户端id:{},客户端消息:{}", ctx.channel().id(), msg);
+        log.info("【客户端，才进入】有客户端发送消息,客户端id:{},客户端消息:{}", ctx.channel().id(), msg);
 
         if (msg instanceof TenByteEntity) {
             //如果是10个字节的心跳包数据，解析心跳包，保存主控板的信息和硬件的信息
             TenByteEntity entity = (TenByteEntity) msg;
-            log.info(entity.toString());
-            //保存主机地址
+            log.info("【客户端，注册报文或者心跳包】有客户端发送消息,客户端id:{},客户端消息:{}"+ctx.channel().id(),entity.toString());
+            //保存主板地址到map做临时缓存
             ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
             ConcurrentHashMap<String, Object> stringObjectConcurrentHashMap = channelDetail.get(ctx.channel().id());
-            stringObjectConcurrentHashMap.put("address", entity.getMainboardAddress());
+            //map里面不存在主机地址
+            if (!stringObjectConcurrentHashMap.containsKey("address")) {
+                stringObjectConcurrentHashMap.put("address", entity.getMainboardAddress());
+            }
+
             //注册主板信息不为空
             if (ObjectUtil.isNotNull(entity.getMainboardAddress())) {
                 // 更新/新增主板信息
@@ -156,6 +160,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                 if (ObjectUtil.isNotNull(entity.getAirConditionerCount())) {//空调信息不为空
                     long count = deviceInfoService.count(Wrappers.lambdaQuery(DeviceInfo.class)
                             .eq(DeviceInfo::getControlId, entity.getMainboardAddress())
+                            //todo 先写死为空调
                             .eq(DeviceInfo::getDeviceTypeId, 1L));
                     //此次注册设备与上次不一致，重新添加此次注册设备
                     if ((byte) count != entity.getAirConditionerCount()) {
@@ -179,7 +184,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
         } else if (msg instanceof EightByteEntity) {
             //如果是8个字节数据硬件状态，这是硬件返回的信息
             EightByteEntity entity = (EightByteEntity) msg;
-            log.info(entity.toString());
+            log.info("【客户端，数据包】有客户端发送消息,客户端id:{},客户端消息:{}"+ctx.channel().id(),entity.toString());
             if (ObjectUtil.isNotNull(entity)) {
                 ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
                 if (CollectionUtils.isEmpty(channelDetail)) {
