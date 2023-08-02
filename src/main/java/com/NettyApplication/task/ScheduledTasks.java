@@ -4,9 +4,11 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.DeviceInfo;
+import com.NettyApplication.entity.OperateLog;
 import com.NettyApplication.listen.ChannelMap;
 import com.NettyApplication.listen.DtuManage;
 import com.NettyApplication.service.IDeviceInfoService;
+import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.tool.HexConversion;
 import com.NettyApplication.tool.MessageProducer;
 import com.NettyApplication.toolmodel.RedisMessage;
@@ -39,6 +41,8 @@ public class ScheduledTasks {
     MessageProducer messageProducer;
     @Resource
     private IDeviceInfoService deviceInfoService;
+    @Resource
+    private IOperateLogService operateLogService;
 
     private static Map<String, String> hashMap = new HashMap<>();
 
@@ -63,19 +67,20 @@ public class ScheduledTasks {
                     if (ObjectUtil.isNotNull(value1)) {
                         JSONObject jsonObject = JSONUtil.parseObj(value1.toString());
                         HashMap<String, Object> objectHashMap = new HashMap<>(jsonObject);
+                        if (objectHashMap.isEmpty()) continue;
                         for (String mkey : objectHashMap.keySet()) {//设备轮询
-                            RedisMessage redisMessage = new RedisMessage();
                             Object o = objectHashMap.get(mkey);
-                            BeanUtils.copyProperties(redisMessage, o);
+                            RedisMessage redisMessage = JSONUtil.toBean(o.toString(), RedisMessage.class);
+                            if (ObjectUtil.isNull(redisMessage)) continue;
                             //获取重试次数
                             String value = allValueAccessCounts.get(redisMessage.getKey());
-                            if (Integer.parseInt(value) < 3) {//重试小于3次
+                            if ((StringUtils.isNotEmpty(value) && Integer.parseInt(value) < 3) || StringUtils.isEmpty(value)) {//重试小于3次
                                 // 再次发送指令
                                 sendMsg(redisMessage.getMsgBytes(), redisMessage.getControlId());
                                 //增加次数
-                                messageProducer.incrementValueAccessCount(null, key, 1);
+                                messageProducer.incrementValueAccessCount(null, mkey, 1);
                                 break;
-                            } else {//重试大于等于3次
+                            } else if (StringUtils.isNotEmpty(value) && Integer.parseInt(value) >= 3) {//重试大于等于3次
                                 //获取设备信息
                                 DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
                                         .eq(DeviceInfo::getControlId, redisMessage.getControlId())//主板编码
@@ -88,18 +93,37 @@ public class ScheduledTasks {
                                     one.setLastModifiedDate(LocalDateTime.now());
                                     deviceInfoService.updateById(one);
                                 }
-                                // todo 保存失联日志
+                                //redis缓存移除逻辑
+                                objectHashMap.remove(mkey);
+                                if (objectHashMap.isEmpty()) {
+                                    messageProducer.delete(key);
+                                } else {
+                                    messageProducer.setValue(key, JSONUtil.toJsonStr(objectHashMap));
+                                }
+                                messageProducer.removeValue(null, mkey);
+                                messageProducer.removeValue("controlIds", key);
+                                if (!objectHashMap.isEmpty())
+                                    messageProducer.incrementValueAccessCount("controlIds", key, objectHashMap.size());
 
+                                //  保存失联日志
+                                OperateLog operateLog = new OperateLog();
+                                operateLog.setControlId(redisMessage.getControlId());
+                                operateLog.setDeviceTypeId(redisMessage.getType());
+                                operateLog.setDeviceId(redisMessage.getDeviceId());
+                                operateLog.setWriteBack(Boolean.FALSE);
+                                operateLogService.save(operateLog);
                             }
                         }
                     }
 
                 }
+
             }
-        } else {
-            // hashMap为空时的处理逻辑
-            hashMap = map;
+
         }
+
+        hashMap = map;
+
     }
 
 

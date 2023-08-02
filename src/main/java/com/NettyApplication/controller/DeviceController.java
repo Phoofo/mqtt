@@ -99,6 +99,12 @@ public class DeviceController {
             redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(map));
             // 设置硬件的状态
             dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+
+            //非查询操作
+            if (!(msgBytes[3] == (byte) Integer.parseInt("01", 16))) {
+                msgBytes[3] = (byte) Integer.parseInt("01", 16);
+                dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+            }
             //主板队列数加一
             messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), 1);
         }

@@ -225,16 +225,14 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                                         redisMessage.getDeviceId(), redisMessage.getOperation(), redisMessage.getType());
                             } else {
                                 // HashMap为空的情况下的处理逻辑
-                                System.out.println("HashMap为空！");
                             }
+
                         }
                         messageProducer.removeValue("controlIds", address.toString());
-                        messageProducer.incrementValueAccessCount("controlIds", address.toString(), map.size());
+                        if (!map.isEmpty())
+                            messageProducer.incrementValueAccessCount("controlIds", address.toString(), map.size());
                     }
-                    messageProducer.delete(key);
                     messageProducer.removeValue(null, key);
-
-
                 }
             }
         }

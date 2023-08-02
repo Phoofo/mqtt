@@ -37,6 +37,11 @@
                   <el-tag v-else class="ml-2" type="danger">等待连接</el-tag>
                 </template>
             </el-table-column>
+            <el-table-column label="最后更新时间" width="200">
+              <template #default="{ row }">
+                {{ row.lastModifiedDate || '暂无' }}
+              </template>
+            </el-table-column>
             <el-table-column prop="stateD" label="操作" align="center">
                 <template #default="{ row }">
                     <!-- {{ row.stateD || "暂无信息" }} -->
