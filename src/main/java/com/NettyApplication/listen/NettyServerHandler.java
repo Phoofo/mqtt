@@ -228,9 +228,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                                 System.out.println("HashMap为空！");
                             }
                         }
+                        messageProducer.removeValue("controlIds", address.toString());
+                        messageProducer.incrementValueAccessCount("controlIds", address.toString(), map.size());
                     }
                     messageProducer.delete(key);
-                    messageProducer.removeValue(key);
+                    messageProducer.removeValue(null, key);
+
 
                 }
             }

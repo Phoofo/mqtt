@@ -92,7 +92,7 @@ public class DtuManage {
         String key = address.toString() + deviceTypeId.toString()
                 + deviceId.toString();
         //增加值的访问次数
-        messageProducer.incrementValueAccessCount(key);
+        messageProducer.incrementValueAccessCount(null, key, 1);
     }
 
     /**

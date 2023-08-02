@@ -1,9 +1,11 @@
 package com.NettyApplication.task;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.listen.ChannelMap;
+import com.NettyApplication.listen.DtuManage;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.tool.HexConversion;
 import com.NettyApplication.tool.MessageProducer;
@@ -14,13 +16,18 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelId;
+import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,6 +40,8 @@ public class ScheduledTasks {
     @Resource
     private IDeviceInfoService deviceInfoService;
 
+    private static Map<String, String> hashMap = new HashMap<>();
+
     /**
      *
      */
@@ -40,34 +49,56 @@ public class ScheduledTasks {
     public void task() {
 
         System.out.println("定时任务执行时间->->  " + LocalDateTime.now());
-        Map<String, String> map = messageProducer.getAllValueAccessCounts();
+        Map<String, String> map = messageProducer.getAllValueAccessCounts("controlIds");
         System.out.println("@@@-->   " + map);
-        for (String key : map.keySet()) {
-            Object value1 = messageProducer.getValue(key);
-            RedisMessage redisMessage = JSONUtil.toBean(value1.toString(), RedisMessage.class);
-            //获取重试次数
-            String value = map.get(key);
-            if (Integer.parseInt(value) < 3) {//重试小于3次
-                // 再次发送指令
-                sendMsg(redisMessage.getMsgBytes(), redisMessage.getControlId());
-                //增加次数
-                messageProducer.incrementValueAccessCount(key);
-            } else {//重试大于等于3次
-                //获取设备信息
-                DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
-                        .eq(DeviceInfo::getControlId, redisMessage.getControlId())//主板编码
-                        .eq(DeviceInfo::getDeviceId, redisMessage.getDeviceId())//设备编码
-                        .eq(DeviceInfo::getDeviceTypeId, redisMessage.getType())//设备类型
-                );
-                //更新设备信息
-                if (ObjectUtil.isNotNull(one)) {
-                    one.setIsConnect(Boolean.FALSE);
-                    one.setLastModifiedDate(LocalDateTime.now());
-                    deviceInfoService.updateById(one);
+        if (!hashMap.isEmpty()) {
+            Map<String, String> allValueAccessCounts = messageProducer.getAllValueAccessCounts(null);
+            for (String key : map.keySet()) {//主板轮询
+                String s = map.get(key);
+                String s1 = hashMap.get(key);
+                if ((StringUtils.isNotEmpty(s) && StringUtils.isNotEmpty(s1)) && s.equals(s1)) {
+                    //如果同一个主板与2秒前的待执行数一致
+                    //则去获取主板下待执行队列，比对执行指令次数
+                    Object value1 = messageProducer.getValue(key);
+                    if (ObjectUtil.isNotNull(value1)) {
+                        JSONObject jsonObject = JSONUtil.parseObj(value1.toString());
+                        HashMap<String, Object> objectHashMap = new HashMap<>(jsonObject);
+                        for (String mkey : objectHashMap.keySet()) {//设备轮询
+                            RedisMessage redisMessage = new RedisMessage();
+                            Object o = objectHashMap.get(mkey);
+                            BeanUtils.copyProperties(redisMessage, o);
+                            //获取重试次数
+                            String value = allValueAccessCounts.get(redisMessage.getKey());
+                            if (Integer.parseInt(value) < 3) {//重试小于3次
+                                // 再次发送指令
+                                sendMsg(redisMessage.getMsgBytes(), redisMessage.getControlId());
+                                //增加次数
+                                messageProducer.incrementValueAccessCount(null, key, 1);
+                                break;
+                            } else {//重试大于等于3次
+                                //获取设备信息
+                                DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
+                                        .eq(DeviceInfo::getControlId, redisMessage.getControlId())//主板编码
+                                        .eq(DeviceInfo::getDeviceId, redisMessage.getDeviceId())//设备编码
+                                        .eq(DeviceInfo::getDeviceTypeId, redisMessage.getType())//设备类型
+                                );
+                                //更新设备信息
+                                if (ObjectUtil.isNotNull(one)) {
+                                    one.setIsConnect(Boolean.FALSE);
+                                    one.setLastModifiedDate(LocalDateTime.now());
+                                    deviceInfoService.updateById(one);
+                                }
+                                // todo 保存失联日志
+
+                            }
+                        }
+                    }
+
                 }
-//                log.warn("主板{},设备类型为{}的设备{}已失去连接", redisMessage.getControlId(),
-//                        redisMessage.getType(), redisMessage.getDeviceId());
             }
+        } else {
+            // hashMap为空时的处理逻辑
+            hashMap = map;
         }
     }
 

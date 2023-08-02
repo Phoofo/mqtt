@@ -1,5 +1,8 @@
 package com.NettyApplication.tool;
 
+import cn.hutool.core.util.ObjectUtil;
+import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -86,8 +89,10 @@ public class MessageProducer {
      *
      * @param valueKey
      */
-    public void incrementValueAccessCount(String valueKey) {
-        hashOperations.increment("valueCounts", valueKey, 1);
+    public void incrementValueAccessCount(String key, String valueKey, Integer delta) {
+        if (StringUtils.isEmpty(key)) key = "valueCounts";
+        if (ObjectUtil.isEmpty(delta)) delta = 1;
+        hashOperations.increment(key, valueKey, delta);
     }
 
     /**
@@ -96,8 +101,9 @@ public class MessageProducer {
      * @param valueKey
      * @return
      */
-    public long getValueAccessCount(String valueKey) {
-        String count = hashOperations.get("valueCounts", valueKey);
+    public long getValueAccessCount(String key, String valueKey) {
+        if (StringUtils.isEmpty(key)) key = "valueCounts";
+        String count = hashOperations.get(key, valueKey);
         return (count != null) ? Long.parseLong(count) : 0;
     }
 
@@ -106,8 +112,9 @@ public class MessageProducer {
      *
      * @return
      */
-    public Map<String, String> getAllValueAccessCounts() {
-        return hashOperations.entries("valueCounts");
+    public Map<String, String> getAllValueAccessCounts(String key) {
+        if (StringUtils.isEmpty(key)) key = "valueCounts";
+        return hashOperations.entries(key);
     }
 
     /**
@@ -115,8 +122,9 @@ public class MessageProducer {
      *
      * @return
      */
-    public void removeValue(String valueKey) {
-        hashOperations.delete("valueCounts", valueKey);
+    public void removeValue(String key, String valueKey) {
+        if (StringUtils.isEmpty(key)) key = "valueCounts";
+        hashOperations.delete(key, valueKey);
     }
 
 }

@@ -9,6 +9,7 @@ import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.dto.AirOperationDto;
 import com.NettyApplication.listen.DtuManage;
 import com.NettyApplication.service.IDeviceInfoService;
+import com.NettyApplication.tool.MessageProducer;
 import com.NettyApplication.toolmodel.RedisMessage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +49,8 @@ public class DeviceController {
     private IDeviceInfoService iDeviceInfoService;
     @Resource
     RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    MessageProducer messageProducer;
 
     @Operation(description = "操作空调:/查询/开机/关机/制冷/制热/除湿")
     @PostMapping("/setAir")
@@ -87,14 +90,19 @@ public class DeviceController {
             HashMap<String, Object> hashMap = new HashMap<>(jsonObject);
             hashMap.put(key, JSONUtil.toJsonStr(redisMessage));
             redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(hashMap));
-            //加入主板队列
+            //主板队列数加一
+            messageProducer.removeValue("controlIds", dto.getControlId().toString());
+            messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), hashMap.size());
         } else {
             HashMap<String, Object> map = new HashMap<>();
             map.put(key, JSONUtil.toJsonStr(redisMessage));
             redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(map));
             // 设置硬件的状态
             dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+            //主板队列数加一
+            messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), 1);
         }
+
         return ResponseEntity.ok("Success!");
     }
 
@@ -156,6 +164,8 @@ public class DeviceController {
             finalMap.put(key, JSONUtil.toJsonStr(redisMessage));
         });
         redisTemplate.opsForValue().set(dto.getControlId().toString(), JSONUtil.toJsonStr(finalMap));
+        //主板队列数加个数
+        messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), finalMap.size());
         if (ObjectUtil.isNull(o) && deviceIds.size() > 0) {//队列为空则马上发送一个
             byte[] msgBytes = {
                     (byte) Integer.parseInt("AA", 16),//开头
