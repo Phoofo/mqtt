@@ -7,6 +7,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.dto.AirOperationDto;
+import com.NettyApplication.listen.DeviceServe;
 import com.NettyApplication.listen.DtuManage;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.tool.MessageProducer;
@@ -19,12 +20,14 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,6 +49,8 @@ public class DeviceController {
     @Resource
     private DtuManage dtuManage;
     @Resource
+    private DeviceServe deviceServe;
+    @Resource
     private IDeviceInfoService iDeviceInfoService;
     @Resource
     RedisTemplate<String, Object> redisTemplate;
@@ -60,7 +65,9 @@ public class DeviceController {
         Assert.notNull(dto.getOperation(), "空调操作不能为空");
         Assert.notNull(dto.getDeviceTypeId(), "设备类型不能为空");
         Assert.isTrue(dto.getDeviceTypeId() == 1L, "设备类型不为空调");
-        // 报文封装
+        //获取主控板信息
+        Short controlId = dto.getControlId();
+        // 指令报文封装
         byte[] msgBytes = {
                 (byte) Integer.parseInt("AA", 16),//开头
                 (byte) Integer.parseInt("01", 16),//设备类型:空调01
@@ -71,40 +78,39 @@ public class DeviceController {
                 (byte) Integer.parseInt("00", 16),//可拓展参数
                 (byte) Integer.parseInt("FE", 16) //结尾
         };
-        // 主板编号
 
         /**
-        *  1、前端发送操作指令，查询set是否有   主板id：编号
+         *  1、前端发送操作指令，首先查询set是否有该设备
          *          one：有   直接返回不能操作
          *          two：没有    1、直接发送到硬件 2、list排队、在hash里面记录次数、放到set做重复性操作
-        * */
-
-        //key是主控板id，硬件类型，硬件编号组合而成
-        String key = dto.getControlId().toString() +":"+ dto.getDeviceTypeId().toString() +":"+ dto.getDeviceId().toString();
-        //判断set中是否有这个设备的命令
+         */
+        // key是 主控板ID:硬件类型:硬件编号 组合而成
+        String key = controlId.toString() + ":" + dto.getDeviceTypeId().toString() + ":" + dto.getDeviceId().toString();
+        // 通过set中该设备的值 进行判断 该设备是否正在处理其他指令
         SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
         Boolean member = stringObjectSetOperations.isMember("id", key);
-        //todo 鲜帅怎么优化一下
-        if(member)
-            return ResponseEntity.ok("指令正在处理，请不要重复 操作!");
-        Short controlId = dto.getControlId();
-        //给硬件发送消息
-        /**
-        * redis操作
-        * */
+        // 有，则说明该设备正在处理其他指令
+        if (member) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("指令正在处理，请不要重复操作!");
+        // 没有，则准备发送redis缓存信息
         ListOperations<String, Object> stringObjectListOperations = redisTemplate.opsForList();
-        //如果list对应的主板没有值直接发送消息给硬件，再保存数据到redis
-        Long size = stringObjectListOperations.size(controlId.toString());
-       if(size==0)
-           dtuManage.sendMsg(msgBytes, controlId, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
-        //保存到list，方便顺序消费
-        stringObjectListOperations.leftPush(controlId.toString(),key);
+        // 判断redis该主板队列是否存在,和是否有其他设备正在占用主板
+        boolean keyExists = redisTemplate.hasKey(controlId.toString());
+        Long size = null;
+        if (keyExists) {
+            size = stringObjectListOperations.size(controlId.toString());
+            //该主板队列存在，且为空，则直接发送指令
+            if (size == 0 || size == null)
+                deviceServe.sendMsg(msgBytes, controlId, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+        }
+        //保存到该主板队列，方便顺序执行发送
+        stringObjectListOperations.leftPush(controlId.toString(), key);
 
-        //保存到hash，记录指令和次数
+        //保存到主板设备hash，记录报文，时间戳，指令和次数
         HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
-        stringObjectObjectHashOperations.put(key,"operation",dto.getOperation());
-        stringObjectObjectHashOperations.put(key,"number",2);
-
+        stringObjectObjectHashOperations.put(key, "operation", dto.getOperation());
+        stringObjectObjectHashOperations.put(key, "number", (size == 0 || size == null) ? 2 : 3);//已发送记录2，未发生记录3
+        stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
+        stringObjectObjectHashOperations.put(key, "message", msgBytes);
 
         return ResponseEntity.ok("Success!");
     }
