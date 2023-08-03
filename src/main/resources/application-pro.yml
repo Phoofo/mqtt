@@ -16,7 +16,7 @@ spring:
       max-request-size: 500MB
   redis:
     ## Redis数据库索引（默认为0）
-    database: 2
+    database: 1
     host: 192.168.0.2
     port: 6379
     password: 'aY)I&ikkop[F3t'

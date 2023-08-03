@@ -1,6 +1,5 @@
 package com.NettyApplication.listen;
 
-import com.NettyApplication.toolmodel.TenByteEntity;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

@@ -15,17 +15,17 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.Key;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -72,42 +72,39 @@ public class DeviceController {
                 (byte) Integer.parseInt("FE", 16) //结尾
         };
         // 主板编号
-        Short s = dto.getControlId();
 
-        //封装redis记录
-        String key = dto.getControlId().toString() + dto.getDeviceTypeId().toString() + dto.getDeviceId().toString();
-        RedisMessage redisMessage = new RedisMessage();
-        redisMessage.setMsgBytes(msgBytes);
-        redisMessage.setOperation(dto.getOperation());
-        redisMessage.setDeviceId(dto.getDeviceId());
-        redisMessage.setControlId(dto.getControlId());
-        //key封装
-        redisMessage.setKey(key);
-        redisMessage.setType(dto.getDeviceTypeId());
-        Object o = redisTemplate.opsForValue().get(s.toString());
-        if (ObjectUtil.isNotNull(o)) {
-            JSONObject jsonObject = JSONUtil.parseObj(o.toString());
-            HashMap<String, Object> hashMap = new HashMap<>(jsonObject);
-            hashMap.put(key, JSONUtil.toJsonStr(redisMessage));
-            redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(hashMap));
-            //主板队列数加一
-            messageProducer.removeValue("controlIds", dto.getControlId().toString());
-            messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), hashMap.size());
-        } else {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put(key, JSONUtil.toJsonStr(redisMessage));
-            redisTemplate.opsForValue().set(s.toString(), JSONUtil.toJsonStr(map));
-            // 设置硬件的状态
-            dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+        /**
+        *  1、前端发送操作指令，查询set是否有   主板id：编号
+         *          one：有   直接返回不能操作
+         *          two：没有    1、直接发送到硬件 2、list排队、在hash里面记录次数、放到set做重复性操作
+        * */
 
-            //非查询操作
-            if (!(msgBytes[3] == (byte) Integer.parseInt("01", 16))) {
-                msgBytes[3] = (byte) Integer.parseInt("01", 16);
-                dtuManage.sendMsg(msgBytes, s, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
-            }
-            //主板队列数加一
-            messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), 1);
-        }
+        //key是主控板id，硬件类型，硬件编号组合而成
+        String key = dto.getControlId().toString() +":"+ dto.getDeviceTypeId().toString() +":"+ dto.getDeviceId().toString();
+        //判断set中是否有这个设备的命令
+        SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
+        Boolean member = stringObjectSetOperations.isMember("id", key);
+        //todo 鲜帅怎么优化一下
+        if(member)
+            return ResponseEntity.ok("指令正在处理，请不要重复 操作!");
+        Short controlId = dto.getControlId();
+        //给硬件发送消息
+        /**
+        * redis操作
+        * */
+        ListOperations<String, Object> stringObjectListOperations = redisTemplate.opsForList();
+        //如果list对应的主板没有值直接发送消息给硬件，再保存数据到redis
+        Long size = stringObjectListOperations.size(controlId.toString());
+       if(size==0)
+           dtuManage.sendMsg(msgBytes, controlId, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+        //保存到list，方便顺序消费
+        stringObjectListOperations.leftPush(controlId.toString(),key);
+
+        //保存到hash，记录指令和次数
+        HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+        stringObjectObjectHashOperations.put(key,"operation",dto.getOperation());
+        stringObjectObjectHashOperations.put(key,"number",2);
+
 
         return ResponseEntity.ok("Success!");
     }

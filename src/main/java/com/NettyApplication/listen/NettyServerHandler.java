@@ -5,34 +5,30 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.Control;
 import com.NettyApplication.entity.DeviceInfo;
-import com.NettyApplication.entity.OperateLog;
 import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
-import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.tool.MessageProducer;
-import com.NettyApplication.toolmodel.DatagramEntity;
 import com.NettyApplication.toolmodel.EightByteEntity;
 import com.NettyApplication.toolmodel.RedisMessage;
 import com.NettyApplication.toolmodel.TenByteEntity;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -71,23 +67,24 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
-        String clientIp = insocket.getAddress().getHostAddress();
-        int clientPort = insocket.getPort();
+        /**
+         * 获取IP和端口号
+         * InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
+         * String clientIp = insocket.getAddress().getHostAddress();
+         * int clientPort = insocket.getPort();
+         * */
+
         //获取连接通道唯一标识
         ChannelId channelId = ctx.channel().id();
         //如果map中不包含此连接，就保存连接
         if (ChannelMap.getChannelMap().containsKey(channelId)) {
-            log.info("客户端:{},是连接状态，连接通道数量:{} ", channelId, ChannelMap.getChannelMap().size());
+            log.info("硬件:{},已经是连接状态，，连接通道数量:{} ", channelId, ChannelMap.getChannelMap().size());
         } else {
-            log.info(ctx.toString());
-            log.info(ctx.channel().toString());
             //才激活  保存连接
             ConcurrentHashMap<String, Object> objectObjectConcurrentHashMap = new ConcurrentHashMap<>();
             objectObjectConcurrentHashMap.put("channel", ctx.channel());
             ChannelMap.addChannelOrTenByteEntity(channelId, objectObjectConcurrentHashMap);
-            log.info("客户端:{},连接netty服务器[IP:{}-->PORT:{}]", channelId, clientIp, clientPort);
-            log.info("channelActive连接通道数量: {}", ChannelMap.getChannelDetail().size());
+            log.info("新的硬件：{channelId}才建立链接,channelActive连接通道数量: {}", channelId, ChannelMap.getChannelDetail().size());
         }
     }
 
@@ -101,16 +98,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        InetSocketAddress inSocket = (InetSocketAddress) ctx.channel().remoteAddress();
-        String clientIp = inSocket.getAddress().getHostAddress();
         ChannelId channelId = ctx.channel().id();
-        log.info("断开1客户端:{},连接netty服务器[IP:{}-->PORT:{}]", channelId, clientIp, inSocket.getPort());
+
+        //todo 鲜帅处理数据库主板的状态
+
         //包含此客户端才去删除
         if (ChannelMap.getChannelDetail().containsKey(channelId)) {
             //删除连接
             ChannelMap.getChannelDetail().remove(channelId);
-            log.info("断开2客户端:{},连接netty服务器[IP:{}-->PORT:{}]", channelId, clientIp, inSocket.getPort());
-            log.info("channelInactive连接通道数量: " + ChannelMap.getChannelMap().size());
+            log.info("硬件：{}，终止连接服务器，目前连接通道数量:{} ", channelId, ChannelMap.getChannelMap().size());
         }
     }
 
@@ -126,12 +122,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        log.info("【客户端，才进入】有客户端发送消息,客户端id:{},客户端消息:{}", ctx.channel().id(), msg);
-
         if (msg instanceof TenByteEntity) {
             //如果是10个字节的心跳包数据，解析心跳包，保存主控板的信息和硬件的信息
             TenByteEntity entity = (TenByteEntity) msg;
-            log.info("【客户端，注册报文或者心跳包】有客户端发送消息,客户端id:{},客户端消息:{}"+ctx.channel().id(),entity.toString());
+            log.info("【硬件，注册报文或者心跳包】客户端id:{},客户端消息:{}" + ctx.channel().id(), entity.toString());
             //保存主板地址到map做临时缓存
             ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
             ConcurrentHashMap<String, Object> stringObjectConcurrentHashMap = channelDetail.get(ctx.channel().id());
@@ -142,20 +136,27 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
 
             //注册主板信息不为空
             if (ObjectUtil.isNotNull(entity.getMainboardAddress())) {
-                // 更新/新增主板信息
+                /**
+                 * 处理主板
+                 * */
                 IControlService controlService = context.getBean(IControlService.class);
                 Control one = controlService.getById(entity.getMainboardAddress());
                 if (ObjectUtil.isNotNull(one)) {
+                    // 更新/新增主板信息
                     one.setConnectionStatus(true);
                     one.setLastModifiedDate(LocalDateTime.now());
                     controlService.updateById(one);
                 } else {
+                    //添加主板信息
                     Control control = new Control();
                     control.setId(entity.getMainboardAddress());
                     control.setConnectionStatus(true);
                     control.setCreatedDate(LocalDateTime.now());
                     controlService.save(control);
                 }
+                /**
+                 * 处理主板关联设备
+                 * */
                 IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
                 if (ObjectUtil.isNotNull(entity.getAirConditionerCount())) {//空调信息不为空
                     long count = deviceInfoService.count(Wrappers.lambdaQuery(DeviceInfo.class)
@@ -168,6 +169,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                         List<DeviceInfo> list = deviceInfoService.list(Wrappers.lambdaQuery(DeviceInfo.class)
                                 .eq(DeviceInfo::getControlId, entity.getMainboardAddress())
                                 .eq(DeviceInfo::getDeviceTypeId, 1L));
+                        //list批量循环删除
                         list.forEach(deviceInfoService::removeById);
                         //添加此次注册设备
                         for (byte i = 1; i <= entity.getAirConditionerCount(); i++) {
@@ -175,7 +177,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             deviceInfo.setControlId(entity.getMainboardAddress());
                             deviceInfo.setDeviceId(i);
                             deviceInfo.setDeviceTypeId((byte) 1);
-                            deviceInfo.setIsConnect(Boolean.TRUE);
+                            //todo 设备默认是没有链接的
+                            deviceInfo.setIsConnect(Boolean.FALSE);
                             deviceInfoService.save(deviceInfo);
                         }
                     }
@@ -184,61 +187,74 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
         } else if (msg instanceof EightByteEntity) {
             //如果是8个字节数据硬件状态，这是硬件返回的信息
             EightByteEntity entity = (EightByteEntity) msg;
-            log.info("【客户端，数据包】有客户端发送消息,客户端id:{},客户端消息:{}"+ctx.channel().id(),entity.toString());
+            log.info("【硬件，数据包】有客户端发送消息,客户端id:{},客户端消息:{}" + ctx.channel().id(), entity.toString());
             if (ObjectUtil.isNotNull(entity)) {
                 ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
                 if (CollectionUtils.isEmpty(channelDetail)) {
+                    //可能主板全部断开了链接
+                    log.info("【硬件，数据包】发送了消息，但是map缓存是空的******");
                     return;
                 }
                 //获取设备信息
-                Short address = (Short) channelDetail.get(ctx.channel().id()).get("address");
-                IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
-                DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
-                        .eq(DeviceInfo::getControlId, address)//主板编码
-                        .eq(DeviceInfo::getDeviceId, entity.getAddress())//设备编码
-                        .eq(DeviceInfo::getDeviceTypeId, 1L)//设备类型
-                );
-                //更新设备信息
-                if (ObjectUtil.isNotNull(one)) {
-                    one.setStateA(entity.getStatus1());
-                    one.setStateB(entity.getStatus2());
-                    one.setStateC(entity.getStatus3());
-                    one.setStateD(entity.getStatus4());
-                    one.setIsConnect(Boolean.TRUE);
-                    one.setLastModifiedDate(LocalDateTime.now());
-                    deviceInfoService.updateById(one);
-                    // redis记录清除
-                    String key = address.toString() + one.getDeviceTypeId().toString() + one.getDeviceId();
-                    MessageProducer messageProducer = context.getBean(MessageProducer.class);
-                    Object value = messageProducer.getValue(address.toString());
-                    // 获取同主板下其他的设备指令
-                    if (ObjectUtil.isNotNull(value)) {
-                        JSONObject jsonObject = JSONUtil.parseObj(value.toString());
-                        HashMap<String, Object> map = new HashMap<>(jsonObject);
-                        map.remove(key);
-                        messageProducer.setValue(address.toString(), JSONUtil.toJsonStr(map));
-                        // 执行同主控板下的其他设备指令
-                        if (!map.isEmpty()) {
-                            Iterator<Map.Entry<String, Object>> iterator = map.entrySet().iterator();
-                            if (iterator.hasNext()) {
-                                // 获取顺位第一个设备指令,发生
-                                Map.Entry<String, Object> entry = iterator.next();
-                                Object entryValue = entry.getValue();
-                                RedisMessage redisMessage = JSONUtil.toBean(JSONUtil.parseObj(entryValue.toString()), RedisMessage.class);
-                                DtuManage dtuManage = context.getBean(DtuManage.class);
-                                dtuManage.sendMsg(redisMessage.getMsgBytes(), redisMessage.getControlId(),
-                                        redisMessage.getDeviceId(), redisMessage.getOperation(), redisMessage.getType());
-                            } else {
-                                // HashMap为空的情况下的处理逻辑
+                Map<String, Object> channelInfo = channelDetail.get(ctx.channel().id());
+                Short address = null;
+                if (channelInfo != null) {
+                    address = (Short) channelInfo.get("address");
+                    IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
+                    DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
+                            .eq(DeviceInfo::getControlId, address)//主板编码
+                            .eq(DeviceInfo::getDeviceId, entity.getAddress())//设备编码
+                            .eq(DeviceInfo::getDeviceTypeId, 1L)//设备类型
+                    );
+                    //先处理redis的数据 删除hash，set，list的数据
+                    String key = address + ":" + one.getDeviceTypeId() + ":" + one.getDeviceId();
+                    RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+                    HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+                    SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
+                    ListOperations listOperations = redisTemplate.opsForList();
+                    //list的主键是主板，注意主板的key是主板id
+                    List<String> listValues = listOperations.range(address, 0, -1);
+                    int size = listValues.size();
+                    if (size != 0) {
+                        //list里面有主板信息
+                        boolean containsValue = listValues.contains(key);
+                        if (containsValue) {
+                            Long index = null;
+                            for (long i = 0; i < size; i++) {
+                                String element = (String) listOperations.index(address, i);
+                                if ("targetElement".equals(element)) {
+                                    index = i;
+                                    break;
+                                }
                             }
+                            if (index == 0) {
+                                //弹出
+                                listOperations.leftPop(address);
+                                //set删除
+                                stringObjectSetOperations.remove("id", key);
+                                //hash里面删除
+                                stringObjectObjectHashOperations.delete("id", key);
 
+                                //todo 发送这个主板的下一条消息
+                            }else {
+                                //todo 报文提交到达，怎么处理，删除前面的说有数据，更改数据库状态
+                            }
                         }
-                        messageProducer.removeValue("controlIds", address.toString());
-                        if (!map.isEmpty())
-                            messageProducer.incrementValueAccessCount("controlIds", address.toString(), map.size());
+
                     }
-                    messageProducer.removeValue(null, key);
+                    //更新设备信息
+                    if (ObjectUtil.isNotNull(one)) {
+                        //更新数据库硬件的状态
+                        one.setStateA(entity.getStatus1());
+                        one.setStateB(entity.getStatus2());
+                        one.setStateC(entity.getStatus3());
+                        one.setStateD(entity.getStatus4());
+                        one.setIsConnect(Boolean.TRUE);
+                        one.setLastModifiedDate(LocalDateTime.now());
+                        deviceInfoService.updateById(one);
+                    }
                 }
+                log.info("【硬件，数据包】发送了消息，没有channelid对应的数据******");
             }
         }
     }

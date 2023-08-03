@@ -1,14 +1,12 @@
 package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.entity.OperateLog;
 import com.NettyApplication.service.IDeviceInfoService;
 import com.NettyApplication.service.IOperateLogService;
 import com.NettyApplication.tool.HexConversion;
 import com.NettyApplication.tool.MessageProducer;
-import com.NettyApplication.toolmodel.RedisMessage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -16,23 +14,17 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 功能描述: 定时发送Dtu报文
+ * controller请求硬件
  *
- * @Author keLe
- * @Date 2022/8/29
  */
 @Slf4j
 @Component
@@ -45,43 +37,35 @@ public class DtuManage {
     MessageProducer messageProducer;
 
     public void sendMsg(byte[] msgBytes, Short address, Byte deviceId, Byte operation, Byte deviceTypeId) {
-//        ConcurrentHashMap<ChannelId, Channel> channelMap = ChannelMap.getChannelMap();
         ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
         if (CollectionUtils.isEmpty(channelDetail)) {
             return;
         }
-//        ConcurrentHashMap.KeySetView<ChannelId, Channel> channelIds = channelMap.keySet();
         ConcurrentHashMap.KeySetView<ChannelId, ConcurrentHashMap<String, Object>> channelIds = channelDetail.keySet();
         for (ChannelId channelId : channelIds) {
-//            Channel channel = ChannelMap.getChannelByName1(channelId);
             Channel channel = (Channel) channelDetail.get(channelId).get("channel");
-            // 判断是否活跃
+
+            // 判断是否活跃 如果主板断开了，在map里面删除掉了
             if (channel == null || !channel.isActive()) {
                 ChannelMap.getChannelDetail().remove(channelId);
                 log.info("客户端:{},连接已经中断", channelId);
                 return;
             }
-
-            System.out.println("netty中的IP" + channel.remoteAddress());
-            log.info("address请求板编号====" + address);
-            log.info(channelDetail.toString());
-            log.info("address注册包@@@@@@@" + channelDetail.get(channelId).get("address"));
-            if (ObjectUtil.isNull(channelDetail.get(channelId).get("address"))) {
+            //todo 这种情况不存在
+           /* if (ObjectUtil.isNull(channelDetail.get(channelId).get("address"))) {
                 log.error("主板{},无主板注册信息", address);
                 throw new IllegalArgumentException("无主板注册信息");
-            }
+            }*/
             // 指令发送
             if (address == (Short) channelDetail.get(channelId).get("address")) {
                 ByteBuf buffer = Unpooled.buffer();
                 log.info("开始发送报文:{}", channelId + "：" + HexConversion.byteArrayToHexString(msgBytes));
                 buffer.writeBytes(msgBytes);
-                setValue(address, deviceId, deviceTypeId);
-//                recordSending(msgBytes, address);
                 channel.writeAndFlush(buffer).addListener((ChannelFutureListener) future -> {
                     if (future.isSuccess()) {
-                        log.info("客户端:{},回写成功:{}", channelId, HexConversion.byteArrayToHexString(msgBytes));
+                        log.info("发送成功:{}", channelId);
                     } else {
-                        log.info("客户端:{},回写失败:{}", channelId, HexConversion.byteArrayToHexString(msgBytes));
+                        log.info("发总失败:{}", channelId);
                     }
                 });
             }

@@ -9,9 +9,9 @@ spring:
     password: 'aY)I&ikkop[F3t'
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///hardware-ai?serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://180.76.235.69:3306/hardware-ai?serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
-    password: 123456
+    password: aY)I&iBop[F3t
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

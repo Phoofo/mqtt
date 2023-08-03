@@ -49,7 +49,7 @@ public class ScheduledTasks {
     /**
      *
      */
-    @Scheduled(fixedRate = 2000) // 每隔2秒执行一次任务
+//    @Scheduled(fixedRate = 2000) // 每隔2秒执行一次任务
     public void task() {
 
         System.out.println("定时任务执行时间->->  " + LocalDateTime.now());
