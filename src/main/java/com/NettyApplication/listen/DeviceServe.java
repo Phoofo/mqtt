@@ -33,12 +33,12 @@ public class DeviceServe {
      * 发送硬件指令
      *
      * @param msgBytes     操作报文
-     * @param address      主控板地址字节
+     * @param controlId      主控板地址字节
      * @param deviceId     设备字节
      * @param operation    操作字节
      * @param deviceTypeId 设备类型字节
      */
-    public void sendMsg(byte[] msgBytes, Short address, Byte deviceId, Byte operation, Byte deviceTypeId) {
+    public void sendMsg(byte[] msgBytes, Short controlId, Byte deviceId, Byte operation, Byte deviceTypeId) {
         //获取保存在 ChannelMap 的所有已连接的主控板通道信息
         ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
         if (CollectionUtils.isEmpty(channelDetail)) {
@@ -57,7 +57,7 @@ public class DeviceServe {
                 return;
             }
             // 如果设备地址（address）与通道详细信息中的地址匹配，则执行 指令发送 操作。
-            if (address == (Short) channelDetail.get(channelId).get("address")) {
+            if (controlId == (Short) channelDetail.get(channelId).get("address")) {
                 ByteBuf buffer = Unpooled.buffer();
                 log.info("开始发送报文:{}", channelId + ": " + HexConversion.byteArrayToHexString(msgBytes));
                 buffer.writeBytes(msgBytes);

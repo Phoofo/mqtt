@@ -92,6 +92,7 @@ public class DeviceController {
         // 有，则说明该设备正在处理其他指令
         if (member) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("指令正在处理，请不要重复操作!");
         // 没有，则准备发送redis缓存信息
+        stringObjectSetOperations.add("id", key);//保存set信息
         ListOperations<String, Object> stringObjectListOperations = redisTemplate.opsForList();
         // 判断redis该主板队列是否存在,和是否有其他设备正在占用主板
         boolean keyExists = redisTemplate.hasKey(controlId.toString());
@@ -103,7 +104,7 @@ public class DeviceController {
                 deviceServe.sendMsg(msgBytes, controlId, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
         }
         //保存到该主板队列，方便顺序执行发送
-        stringObjectListOperations.leftPush(controlId.toString(), key);
+        stringObjectListOperations.rightPush(controlId.toString(), key);
 
         //保存到主板设备hash，记录报文，时间戳，指令和次数
         HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();

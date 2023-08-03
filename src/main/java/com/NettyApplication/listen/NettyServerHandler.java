@@ -26,6 +26,7 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -187,7 +188,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
         } else if (msg instanceof EightByteEntity) {
             //如果是8个字节数据硬件状态，这是硬件返回的信息
             EightByteEntity entity = (EightByteEntity) msg;
-            log.info("【硬件，数据包】有客户端发送消息,客户端id:{},客户端消息:{}" + ctx.channel().id(), entity.toString());
+            log.info("【硬件，数据包】有客户端发送消息,客户端id:{},客户端消息:{}", ctx.channel().id(), entity.toString());
             if (ObjectUtil.isNotNull(entity)) {
                 ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
                 if (CollectionUtils.isEmpty(channelDetail)) {
@@ -195,54 +196,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     log.info("【硬件，数据包】发送了消息，但是map缓存是空的******");
                     return;
                 }
-                //获取设备信息
+                //获取设备硬件通信信息
                 Map<String, Object> channelInfo = channelDetail.get(ctx.channel().id());
-                Short address = null;
+                //主板字节获取
+                Short controlId = null;
                 if (channelInfo != null) {
-                    address = (Short) channelInfo.get("address");
+                    controlId = (Short) channelInfo.get("address");
                     IDeviceInfoService deviceInfoService = context.getBean(IDeviceInfoService.class);
                     DeviceInfo one = deviceInfoService.getOne(Wrappers.lambdaQuery(DeviceInfo.class)
-                            .eq(DeviceInfo::getControlId, address)//主板编码
+                            .eq(DeviceInfo::getControlId, controlId)//主板编码
                             .eq(DeviceInfo::getDeviceId, entity.getAddress())//设备编码
                             .eq(DeviceInfo::getDeviceTypeId, 1L)//设备类型
                     );
-                    //先处理redis的数据 删除hash，set，list的数据
-                    String key = address + ":" + one.getDeviceTypeId() + ":" + one.getDeviceId();
-                    RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
-                    HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
-                    SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
-                    ListOperations listOperations = redisTemplate.opsForList();
-                    //list的主键是主板，注意主板的key是主板id
-                    List<String> listValues = listOperations.range(address, 0, -1);
-                    int size = listValues.size();
-                    if (size != 0) {
-                        //list里面有主板信息
-                        boolean containsValue = listValues.contains(key);
-                        if (containsValue) {
-                            Long index = null;
-                            for (long i = 0; i < size; i++) {
-                                String element = (String) listOperations.index(address, i);
-                                if ("targetElement".equals(element)) {
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            if (index == 0) {
-                                //弹出
-                                listOperations.leftPop(address);
-                                //set删除
-                                stringObjectSetOperations.remove("id", key);
-                                //hash里面删除
-                                stringObjectObjectHashOperations.delete("id", key);
-
-                                //todo 发送这个主板的下一条消息
-                                //todo 如果是查询以外的操作，需要插入一条查询操作
-                            }else {
-                                //todo 报文提交到达，怎么处理，删除前面的说有数据，更改数据库状态
-                            }
-                        }
-
-                    }
                     //更新设备信息
                     if (ObjectUtil.isNotNull(one)) {
                         //更新数据库硬件的状态
@@ -253,6 +218,78 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                         one.setIsConnect(Boolean.TRUE);
                         one.setLastModifiedDate(LocalDateTime.now());
                         deviceInfoService.updateById(one);
+                    }
+                    // 处理redis的数据 删除与该指令相关的set，hash，list的数据
+                    String key = controlId + ":" + one.getDeviceTypeId() + ":" + one.getDeviceId();
+                    RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+                    //移除相关set
+                    SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
+                    stringObjectSetOperations.remove("id", key);
+                    //移除相关hash,移之前取出对应此次报文的操作
+                    HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+                    Byte operation = (Byte) stringObjectObjectHashOperations.get(key, "operation");
+                    stringObjectObjectHashOperations.delete(key);
+                    //消费相关list主板队列
+                    ListOperations listOperations = redisTemplate.opsForList();
+                    //获取该设备主板队列的所有元素
+                    List<String> listValues = listOperations.range(controlId, 0, -1);
+                    int size = listValues.size();
+                    if (size != 0) {
+                        //list里面有主板信息
+                        boolean containsValue = listValues.contains(key);
+                        //消费
+                        listOperations.leftPop(controlId);
+                        //查看操作是否是查询
+                        byte select = (byte) Integer.parseInt("01", 16);
+                        if (select != operation) {
+                            // 指令报文封装
+                            byte[] msgBytes = {
+                                    (byte) Integer.parseInt("AA", 16),//开头
+                                    (byte) Integer.parseInt("01", 16),//设备类型:空调01
+                                    one.getDeviceId(),//设备编号
+                                    select,//功能:01查询;02开机(自动);03关机;04制冷;05制热;06除湿
+                                    (byte) Integer.parseInt("00", 16),//可拓展参数
+                                    (byte) Integer.parseInt("00", 16),//可拓展参数
+                                    (byte) Integer.parseInt("00", 16),//可拓展参数
+                                    (byte) Integer.parseInt("FE", 16) //结尾
+                            };
+                            //处理redis
+                            stringObjectSetOperations.add("id", key);//保存set信息
+                            listOperations.leftPush(controlId.toString(), key);
+                            stringObjectObjectHashOperations.put(key, "operation", select);
+                            stringObjectObjectHashOperations.put(key, "number", 3);//已发送记录2，未发生记录3
+                            stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
+                            stringObjectObjectHashOperations.put(key, "message", msgBytes);
+                            //发送查询指令
+                            DeviceServe deviceServe = context.getBean(DeviceServe.class);
+                            deviceServe.sendMsg(msgBytes, controlId, one.getDeviceId(), select, one.getDeviceTypeId());
+                        } else {
+
+                        }
+
+//                        if (containsValue) {
+//                            Long index = null;
+//                            for (long i = 0; i < size; i++) {
+//                                String element = (String) listOperations.index(controlId, i);
+//                                if (key.equals(element)) {
+//                                    index = i;
+//                                    break;
+//                                }
+//                            }
+//                            if (index == 0) {
+//                                //消费
+//                                listOperations.leftPop(controlId);
+//                                //set删除
+//                                stringObjectSetOperations.remove("id", key);
+//                                //hash里面删除
+//                                stringObjectObjectHashOperations.delete("id", key);
+//
+//
+//                            } else {
+//                                //todo 报文提交到达，怎么处理，删除前面的说有数据，更改数据库状态
+//                            }
+//                        }
+
                     }
                 }
                 log.info("【硬件，数据包】发送了消息，没有channelid对应的数据******");
