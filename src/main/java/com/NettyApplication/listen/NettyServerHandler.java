@@ -236,6 +236,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                                 stringObjectObjectHashOperations.delete("id", key);
 
                                 //todo 发送这个主板的下一条消息
+                                //todo 如果是查询以外的操作，需要插入一条查询操作
                             }else {
                                 //todo 报文提交到达，怎么处理，删除前面的说有数据，更改数据库状态
                             }
