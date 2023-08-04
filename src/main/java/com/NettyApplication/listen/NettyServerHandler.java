@@ -105,6 +105,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
 
         //包含此客户端才去删除
         if (ChannelMap.getChannelDetail().containsKey(channelId)) {
+            redisFormatting(ctx);
             //删除连接
             ChannelMap.getChannelDetail().remove(channelId);
             log.info("硬件：{}，终止连接服务器，目前连接通道数量:{} ", channelId, ChannelMap.getChannelMap().size());
@@ -236,10 +237,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     int size = listValues.size();
                     DeviceServe deviceServe = context.getBean(DeviceServe.class);
                     if (size != 0) {
-                        //list里面有主板信息
-                        boolean containsValue = listValues.contains(key);
-                        //消费
-                        listOperations.leftPop(controlId);
+                        //list里面有主板信息消费
+                        if (listValues.contains(key)) listOperations.leftPop(controlId);
                         //查看操作是否是查询
                         byte select = (byte) Integer.parseInt("01", 16);
                         if (select != operation) {//非查询补查询
@@ -256,7 +255,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             };
                             //处理redis
                             stringObjectSetOperations.add("id", key);//保存set信息
-                            listOperations.leftPush(controlId.toString(), key);
+                            listOperations.leftPush(controlId.toString(), key);//反向插回
                             stringObjectObjectHashOperations.put(key, "operation", select);
                             stringObjectObjectHashOperations.put(key, "number", 2);//已发送记录2
                             stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
@@ -264,7 +263,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             //发送查询指令
                             deviceServe.sendMsg(msgBytes, controlId, one.getDeviceId(), select, one.getDeviceTypeId());
                         } else if (listOperations.range(controlId, 0, -1).size() != 0) {//是查询，且队列还有元素，则处理下一个
-                            String nextKey = (String) listOperations.leftPop(controlId);
+                            String nextKey = (String) listOperations.range(controlId.toString(), 0, 0).get(0);
                             //获取发送指令参数
                             byte[] message = (byte[]) stringObjectObjectHashOperations.get(nextKey, "message");
                             Byte deviceTypeId = (Byte) stringObjectObjectHashOperations.get(nextKey, "deviceTypeId");
@@ -272,33 +271,10 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             Byte nextOperation = (Byte) stringObjectObjectHashOperations.get(nextKey, "operation");
                             //处理redis
                             stringObjectSetOperations.add("id", nextKey);//保存set信息
-                            listOperations.leftPush(controlId.toString(), nextKey);//队列插回
                             stringObjectObjectHashOperations.put(nextKey, "time", LocalDateTime.now());//设置发送时间
                             //发送指令
                             deviceServe.sendMsg(message, controlId, deviceId, nextOperation, deviceTypeId);
                         }
-//                        if (containsValue) {
-//                            Long index = null;
-//                            for (long i = 0; i < size; i++) {
-//                                String element = (String) listOperations.index(controlId, i);
-//                                if (key.equals(element)) {
-//                                    index = i;
-//                                    break;
-//                                }
-//                            }
-//                            if (index == 0) {
-//                                //消费
-//                                listOperations.leftPop(controlId);
-//                                //set删除
-//                                stringObjectSetOperations.remove("id", key);
-//                                //hash里面删除
-//                                stringObjectObjectHashOperations.delete("id", key);
-//
-//
-//                            } else {
-//                                //todo 报文提交到达，怎么处理，删除前面的说有数据，更改数据库状态
-//                            }
-//                        }
                     }
                 }
                 log.info("【硬件，数据包】发送了消息，没有channelid对应的数据******");

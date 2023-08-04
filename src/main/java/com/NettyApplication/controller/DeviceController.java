@@ -45,15 +45,11 @@ import java.util.stream.Collectors;
 public class DeviceController {
 
     @Resource
-    private DtuManage dtuManage;
-    @Resource
     private DeviceServe deviceServe;
     @Resource
     private IDeviceInfoService iDeviceInfoService;
     @Resource
     RedisTemplate<String, Object> redisTemplate;
-    @Resource
-    MessageProducer messageProducer;
 
     @Operation(description = "操作空调:/查询/开机/关机/制冷/制热/除湿")
     @PostMapping("/setAir")
@@ -131,6 +127,8 @@ public class DeviceController {
         Assert.notNull(dto.getOperationType(), "操作类型不能为空");
         Assert.notNull(dto.getDeviceTypeId(), "设备类型不能为空");
         Assert.isTrue(dto.getDeviceTypeId() == 1L, "设备类型不为空调");
+        //获取主控板信息
+        Short controlId = dto.getControlId();
 
         List<Byte> deviceIds = new ArrayList<>();
         if (dto.getOperationType() == 1) {//批量操作
@@ -141,16 +139,10 @@ public class DeviceController {
                     .eq(DeviceInfo::getControlId, dto.getControlId()))
                     .stream().map(DeviceInfo::getDeviceId).collect(Collectors.toList());
         }
-        HashMap<String, Object> map = new HashMap<>();
-
-        Object o = redisTemplate.opsForValue().get(dto.getControlId().toString());
-        if (ObjectUtil.isNotNull(o)) {
-            JSONObject jsonObject = JSONUtil.parseObj(o.toString());
-            map = new HashMap<>(jsonObject);
-        }
-
-        HashMap<String, Object> finalMap = map;
-        deviceIds.forEach(deviceId -> {
+        SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
+        ListOperations<String, Object> listControl = redisTemplate.opsForList();
+        HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+        for (Byte deviceId : deviceIds) {
             // 报文封装
             byte[] msgBytes = {
                     (byte) Integer.parseInt("AA", 16),//开头
@@ -162,34 +154,47 @@ public class DeviceController {
                     (byte) Integer.parseInt("00", 16),//可拓展参数
                     (byte) Integer.parseInt("FE", 16) //结尾
             };
-            RedisMessage redisMessage = new RedisMessage();
-            redisMessage.setMsgBytes(msgBytes);
-            redisMessage.setOperation(dto.getOperation());
-            redisMessage.setDeviceId(deviceId);
-            redisMessage.setControlId(dto.getControlId());
             //key封装
             String key = dto.getControlId().toString() + dto.getDeviceTypeId().toString() + deviceId.toString();
-            redisMessage.setKey(key);
-            redisMessage.setType(dto.getDeviceTypeId());
-
-            finalMap.put(key, JSONUtil.toJsonStr(redisMessage));
-        });
-        redisTemplate.opsForValue().set(dto.getControlId().toString(), JSONUtil.toJsonStr(finalMap));
-        //主板队列数加个数
-        messageProducer.incrementValueAccessCount("controlIds", dto.getControlId().toString(), finalMap.size());
-        if (ObjectUtil.isNull(o) && deviceIds.size() > 0) {//队列为空则马上发送一个
-            byte[] msgBytes = {
-                    (byte) Integer.parseInt("AA", 16),//开头
-                    (byte) Integer.parseInt("01", 16),//设备类型:空调01
-                    deviceIds.get(0),//设备编号
-                    dto.getOperation(),//功能:01查询;02开机(自动);03关机;04制冷;05制热;06除湿
-                    (byte) Integer.parseInt("00", 16),//可拓展参数
-                    (byte) Integer.parseInt("00", 16),//可拓展参数
-                    (byte) Integer.parseInt("00", 16),//可拓展参数
-                    (byte) Integer.parseInt("FE", 16) //结尾
-            };
-            // 设置硬件的状态
-            dtuManage.sendMsg(msgBytes, dto.getControlId(), dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+            //判断该设备是否处理其他指令
+            Boolean member = stringObjectSetOperations.isMember("id", key);
+            // 有，则说明该设备正在处理其他指令直接跳过
+            if (member) continue;
+            //保存到主板设备hash，记录报文，指令和次数
+            stringObjectObjectHashOperations.put(key, "operation", dto.getOperation());
+            stringObjectObjectHashOperations.put(key, "deviceId", deviceId);
+            stringObjectObjectHashOperations.put(key, "deviceTypeId", dto.getDeviceTypeId());
+            stringObjectObjectHashOperations.put(key, "number", 3);//已发送记录2，未发生记录3
+            stringObjectObjectHashOperations.put(key, "message", msgBytes);
+            //加入队列
+            listControl.rightPush(controlId.toString(), key);
+        }
+        if (listControl.range(controlId.toString(), 0, -1).size() > 0) {
+            String firstKey = (String) listControl.range(controlId.toString(), 0, 0).get(0);
+            System.out.println("队列的第一个key为: " + firstKey);
+            Object timeObj = stringObjectObjectHashOperations.get(firstKey, "time");
+            LocalDateTime time = null;
+            if (time != null && timeObj instanceof LocalDateTime) {
+                //有发送时间不处理，等队列完成自己处理下一个
+                return ResponseEntity.ok("Success!");
+            } else {
+                //无时间则说明队列无指令执行，就直接发送第一条指令
+                byte[] message = (byte[]) stringObjectObjectHashOperations.get(firstKey, "message");
+                Byte deviceTypeId = (Byte) stringObjectObjectHashOperations.get(firstKey, "deviceTypeId");
+                Byte deviceId = (Byte) stringObjectObjectHashOperations.get(firstKey, "deviceId");
+                Byte nextOperation = (Byte) stringObjectObjectHashOperations.get(firstKey, "operation");
+                int number = (int) stringObjectObjectHashOperations.get(firstKey, "number");
+                System.out.println("message@@  -> " + message);
+                System.out.println("deviceTypeId@@  -> " + deviceTypeId);
+                System.out.println("nextOperation@@  -> " + nextOperation);
+                System.out.println("number@@  -> " + number);
+                System.out.println("deviceId@@  -> " + deviceId);
+                //发送消息,设置发送时间
+                stringObjectSetOperations.add("id", firstKey);//保存set信息
+                stringObjectObjectHashOperations.put(firstKey, "time", LocalDateTime.now());
+                stringObjectObjectHashOperations.put(firstKey, "number", number - 1);//重试次数减一
+                deviceServe.sendMsg(message, controlId, deviceId, nextOperation, deviceTypeId);
+            }
         }
 
         return ResponseEntity.ok("Success!");

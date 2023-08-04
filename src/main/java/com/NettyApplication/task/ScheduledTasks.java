@@ -124,7 +124,7 @@ public class ScheduledTasks {
                                 //准备执行下一条指令,
                                 //查询是否还有下条指令，没有跳出
                                 if (listControl.range(controlId, 0, -1).size() == 0) break;
-                                String nextKey = (String) listControl.leftPop(controlId);
+                                String nextKey = (String) listControl.range(controlId.toString(), 0, 0).get(0);
                                 //获取发送指令参数
                                 byte[] message = (byte[]) devices.get(nextKey, "message");
                                 Byte deviceTypeId = (Byte) devices.get(nextKey, "deviceTypeId");
@@ -132,7 +132,6 @@ public class ScheduledTasks {
                                 Byte nextOperation = (Byte) devices.get(nextKey, "operation");
                                 //处理redis
                                 keySets.add("id", nextKey);//保存set信息
-                                listControl.leftPush(controlId.toString(), nextKey);//队列插回
                                 devices.put(nextKey, "number", number - 1);//重试次数减一
                                 devices.put(nextKey, "time", LocalDateTime.now());//设置发送时间
                                 //发送指令
