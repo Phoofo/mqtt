@@ -258,7 +258,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             stringObjectSetOperations.add("id", key);//保存set信息
                             listOperations.leftPush(controlId.toString(), key);
                             stringObjectObjectHashOperations.put(key, "operation", select);
-                            stringObjectObjectHashOperations.put(key, "number", 3);//已发送记录2，未发生记录3
+                            stringObjectObjectHashOperations.put(key, "number", 2);//已发送记录2
                             stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
                             stringObjectObjectHashOperations.put(key, "message", msgBytes);
                             //发送查询指令
@@ -273,7 +273,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             //处理redis
                             stringObjectSetOperations.add("id", nextKey);//保存set信息
                             listOperations.leftPush(controlId.toString(), nextKey);//队列插回
-                            //发送查询指令
+                            stringObjectObjectHashOperations.put(nextKey, "time", LocalDateTime.now());//设置发送时间
+                            //发送指令
                             deviceServe.sendMsg(message, controlId, deviceId, nextOperation, deviceTypeId);
                         }
 //                        if (containsValue) {

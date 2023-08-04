@@ -112,7 +112,8 @@ public class DeviceController {
         stringObjectObjectHashOperations.put(key, "deviceId", dto.getDeviceId());
         stringObjectObjectHashOperations.put(key, "deviceTypeId", dto.getDeviceTypeId());
         stringObjectObjectHashOperations.put(key, "number", (size == 0 || size == null) ? 2 : 3);//已发送记录2，未发生记录3
-        stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
+        if (size == 0 || size == null)
+            stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());//发送消息才设置发送时间
         stringObjectObjectHashOperations.put(key, "message", msgBytes);
 
         return ResponseEntity.ok("Success!");
