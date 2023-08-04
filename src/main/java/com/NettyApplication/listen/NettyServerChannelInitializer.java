@@ -1,11 +1,15 @@
 package com.NettyApplication.listen;
 
+import com.NettyApplication.tool.SpringUtils;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 
@@ -29,7 +33,8 @@ public class NettyServerChannelInitializer extends ChannelInitializer<SocketChan
         //如果是读空闲或者写空闲，不处理,这里根据自己业务考虑使用
         pipeline.addLast(new IdleStateHandler(5*60,0,0, TimeUnit.SECONDS));
         //自定义的空闲检测
-        pipeline.addLast(new NettyServerHandler());
+        NettyServerHandler nettyServerHandler = SpringUtils.getBean(NettyServerHandler.class);
+        pipeline.addLast(nettyServerHandler);
     }
 }
 
