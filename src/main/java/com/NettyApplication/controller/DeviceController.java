@@ -94,6 +94,7 @@ public class DeviceController {
         // 没有，则准备发送redis缓存信息
         stringObjectSetOperations.add("id", key);//保存set信息
         ListOperations<String, Object> stringObjectListOperations = redisTemplate.opsForList();
+        HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
         // 判断redis该主板队列是否存在,和是否有其他设备正在占用主板
         boolean keyExists = redisTemplate.hasKey(controlId.toString());
         Long size = null;
@@ -101,19 +102,18 @@ public class DeviceController {
             size = stringObjectListOperations.size(controlId.toString());
             //该主板队列存在，且为空，则直接发送指令
             if (size == 0 || size == null)
-                deviceServe.sendMsg(msgBytes, controlId, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
+                //发送时间戳保存
+                stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());//发送消息才设置发送时间
+            deviceServe.sendMsg(msgBytes, controlId, dto.getDeviceId(), dto.getOperation(), dto.getDeviceTypeId());
         }
         //保存到该主板队列，方便顺序执行发送
         stringObjectListOperations.rightPush(controlId.toString(), key);
 
-        //保存到主板设备hash，记录报文，时间戳，指令和次数
-        HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+        //保存到主板设备hash，记录报文，指令和次数
         stringObjectObjectHashOperations.put(key, "operation", dto.getOperation());
         stringObjectObjectHashOperations.put(key, "deviceId", dto.getDeviceId());
         stringObjectObjectHashOperations.put(key, "deviceTypeId", dto.getDeviceTypeId());
         stringObjectObjectHashOperations.put(key, "number", (size == 0 || size == null) ? 2 : 3);//已发送记录2，未发生记录3
-        if (size == 0 || size == null)
-            stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());//发送消息才设置发送时间
         stringObjectObjectHashOperations.put(key, "message", msgBytes);
 
         return ResponseEntity.ok("Success!");

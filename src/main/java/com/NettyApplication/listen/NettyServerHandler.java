@@ -344,6 +344,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
+                redisFormatting(ctx);
                 log.info("Client:{},READER_IDLE 读超时", socketString);
                 ctx.disconnect();
                 Channel channel = ctx.channel();
@@ -367,6 +368,45 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
             }
         }
     }
+
+    /**
+     * redis主板格式化
+     */
+    private void redisFormatting(ChannelHandlerContext ctx) {
+        log.info("【心跳连接超时】有客户端读超时,客户端id:{}", ctx.channel().id());
+        ConcurrentHashMap<ChannelId, ConcurrentHashMap<String, Object>> channelDetail = ChannelMap.getChannelDetail();
+        if (CollectionUtils.isEmpty(channelDetail)) {
+            //可能主板全部断开了链接
+            return;
+        }
+        //获取设备硬件通信信息
+        Map<String, Object> channelInfo = channelDetail.get(ctx.channel().id());
+        //主板字节获取
+        Short controlId = null;
+        if (channelInfo != null) {
+            controlId = (Short) channelInfo.get("address");
+        }
+        if (controlId != null) {
+            RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+            //获取主板下所有设备Key
+            ListOperations listOperations = redisTemplate.opsForList();
+            List<String> keys = listOperations.range(controlId, 0, -1);
+            //根据设备Key移除相关set和hash
+            SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
+            HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
+            keys.forEach(key -> {
+                //set有key就删除
+                Boolean member = stringObjectSetOperations.isMember("id", key);
+                if (member) stringObjectSetOperations.remove("id", key);
+                //移除相关hash,移之前取出对应此次报文的操作
+                stringObjectObjectHashOperations.delete(key);
+            });
+            //移除完相关set,hash最后移除主板list
+            redisTemplate.delete(controlId);
+        }
+
+    }
+
 
     /**
      * 主控板连接状态断开
