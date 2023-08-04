@@ -109,6 +109,8 @@ public class DeviceController {
         //保存到主板设备hash，记录报文，时间戳，指令和次数
         HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
         stringObjectObjectHashOperations.put(key, "operation", dto.getOperation());
+        stringObjectObjectHashOperations.put(key, "deviceId", dto.getDeviceId());
+        stringObjectObjectHashOperations.put(key, "deviceTypeId", dto.getDeviceTypeId());
         stringObjectObjectHashOperations.put(key, "number", (size == 0 || size == null) ? 2 : 3);//已发送记录2，未发生记录3
         stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
         stringObjectObjectHashOperations.put(key, "message", msgBytes);

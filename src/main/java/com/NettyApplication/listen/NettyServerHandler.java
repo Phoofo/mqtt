@@ -234,6 +234,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     //获取该设备主板队列的所有元素
                     List<String> listValues = listOperations.range(controlId, 0, -1);
                     int size = listValues.size();
+                    DeviceServe deviceServe = context.getBean(DeviceServe.class);
                     if (size != 0) {
                         //list里面有主板信息
                         boolean containsValue = listValues.contains(key);
@@ -241,7 +242,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                         listOperations.leftPop(controlId);
                         //查看操作是否是查询
                         byte select = (byte) Integer.parseInt("01", 16);
-                        if (select != operation) {
+                        if (select != operation) {//非查询补查询
                             // 指令报文封装
                             byte[] msgBytes = {
                                     (byte) Integer.parseInt("AA", 16),//开头
@@ -261,12 +262,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                             stringObjectObjectHashOperations.put(key, "time", LocalDateTime.now());
                             stringObjectObjectHashOperations.put(key, "message", msgBytes);
                             //发送查询指令
-                            DeviceServe deviceServe = context.getBean(DeviceServe.class);
                             deviceServe.sendMsg(msgBytes, controlId, one.getDeviceId(), select, one.getDeviceTypeId());
-                        } else {
-
+                        } else if (listOperations.range(controlId, 0, -1).size() != 0) {//是查询，且队列还有元素，则处理下一个
+                            String nextKey = (String) listOperations.leftPop(controlId);
+                            //获取发送指令参数
+                            byte[] message = (byte[]) stringObjectObjectHashOperations.get(nextKey, "message");
+                            Byte deviceTypeId = (Byte) stringObjectObjectHashOperations.get(nextKey, "deviceTypeId");
+                            Byte deviceId = (Byte) stringObjectObjectHashOperations.get(nextKey, "deviceId");
+                            Byte nextOperation = (Byte) stringObjectObjectHashOperations.get(nextKey, "operation");
+                            //处理redis
+                            stringObjectSetOperations.add("id", nextKey);//保存set信息
+                            listOperations.leftPush(controlId.toString(), nextKey);//队列插回
+                            //发送查询指令
+                            deviceServe.sendMsg(message, controlId, deviceId, nextOperation, deviceTypeId);
                         }
-
 //                        if (containsValue) {
 //                            Long index = null;
 //                            for (long i = 0; i < size; i++) {
@@ -289,7 +298,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
 //                                //todo 报文提交到达，怎么处理，删除前面的说有数据，更改数据库状态
 //                            }
 //                        }
-
                     }
                 }
                 log.info("【硬件，数据包】发送了消息，没有channelid对应的数据******");
