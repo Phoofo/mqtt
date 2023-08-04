@@ -85,7 +85,7 @@ public class ScheduledTasks {
                     //获取该指令的发送时间
                     Object timeObj = devices.get(key, "time");
                     LocalDateTime time = null;
-                    if (time != null && timeObj instanceof LocalDateTime) {//有发送时间,判断是异常还是重试
+                    if (timeObj != null && timeObj instanceof LocalDateTime) {//有发送时间,判断是异常还是重试
                         time = (LocalDateTime) timeObj;
                         //是否在指定时间内消费
                         Duration duration = Duration.between(LocalDateTime.now(), time);

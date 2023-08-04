@@ -174,7 +174,7 @@ public class DeviceController {
             System.out.println("队列的第一个key为: " + firstKey);
             Object timeObj = stringObjectObjectHashOperations.get(firstKey, "time");
             LocalDateTime time = null;
-            if (time != null && timeObj instanceof LocalDateTime) {
+            if (timeObj != null && timeObj instanceof LocalDateTime) {
                 //有发送时间不处理，等队列完成自己处理下一个
                 return ResponseEntity.ok("Success!");
             } else {
