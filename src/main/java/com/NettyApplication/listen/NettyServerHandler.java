@@ -1,15 +1,11 @@
 package com.NettyApplication.listen;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.NettyApplication.entity.Control;
 import com.NettyApplication.entity.DeviceInfo;
 import com.NettyApplication.service.IControlService;
 import com.NettyApplication.service.IDeviceInfoService;
-import com.NettyApplication.tool.MessageProducer;
 import com.NettyApplication.toolmodel.EightByteEntity;
-import com.NettyApplication.toolmodel.RedisMessage;
 import com.NettyApplication.toolmodel.TenByteEntity;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.netty.channel.Channel;
@@ -19,6 +15,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.redis.core.HashOperations;
@@ -26,13 +23,9 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,9 +49,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
      */
     private static ApplicationContext context;
 
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         context = applicationContext;
+
     }
 
     @Override
@@ -222,7 +217,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     }
                     // 处理redis的数据 删除与该指令相关的set，hash，list的数据
                     String key = controlId + ":" + one.getDeviceTypeId() + ":" + one.getDeviceId();
-                    RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+                    Object redisTemplate1 = context.getBean("RedisTemplate");
+                    RedisTemplate redisTemplate = (RedisTemplate) redisTemplate1;
                     //移除相关set
                     SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
                     stringObjectSetOperations.remove("id", key);
@@ -363,10 +359,18 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
             controlId = (Short) channelInfo.get("address");
         }
         if (controlId != null) {
-            RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+//            String[] beanNames = context.getBeanDefinitionNames();
+//            for (String beanName : beanNames) {
+//                Object bean = context.getBean(beanName);
+//                System.out.println("Bean name: " + beanName + ", Bean instance: " + bean);
+//            }
+
+            Object redisTemplate1 = context.getBean("RedisTemplate");
+            RedisTemplate redisTemplate = (RedisTemplate) redisTemplate1;
+            log.info(redisTemplate.toString());
             //获取主板下所有设备Key
             ListOperations listOperations = redisTemplate.opsForList();
-            List<String> keys = listOperations.range(controlId, 0, -1);
+            List<String> keys = listOperations.range(controlId.toString(), 0, -1);
             //根据设备Key移除相关set和hash
             SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
             HashOperations<String, Object, Object> stringObjectObjectHashOperations = redisTemplate.opsForHash();
@@ -378,7 +382,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                 stringObjectObjectHashOperations.delete(key);
             });
             //移除完相关set,hash最后移除主板list
-            redisTemplate.delete(controlId);
+            redisTemplate.delete(controlId.toString());
         }
 
     }

@@ -63,7 +63,7 @@ public class ScheduledTasks {
     /**
      *
      */
-//    @Scheduled(fixedRate = 2000) // 每隔2秒执行一次任务
+    @Scheduled(fixedRate = 2000) // 每隔2秒执行一次任务
     public void task() {
 
         System.out.println("定时任务执行时间->->  " + LocalDateTime.now());
@@ -77,7 +77,7 @@ public class ScheduledTasks {
 
         controlIds.forEach(controlId -> {
             //获取主板下所有指令的 hash key值
-            List<String> keys = listControl.range(controlId, 0, -1);
+            List<String> keys = listControl.range(controlId.toString(), 0, -1);
             //主板指令不为空，则遍历比对其指令是否2秒无回复
             if (keys.size() != 0) {
                 HashOperations<String, Object, Object> devices = redisTemplate.opsForHash();//获取对Redis哈希表进行操作的实例
@@ -123,7 +123,7 @@ public class ScheduledTasks {
 
                                 //准备执行下一条指令,
                                 //查询是否还有下条指令，没有跳出
-                                if (listControl.range(controlId, 0, -1).size() == 0) break;
+                                if (listControl.range(controlId.toString(), 0, -1).size() == 0) break;
                                 String nextKey = (String) listControl.range(controlId.toString(), 0, 0).get(0);
                                 //获取发送指令参数
                                 byte[] message = (byte[]) devices.get(nextKey, "message");
