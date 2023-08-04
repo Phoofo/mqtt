@@ -56,6 +56,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
      */
     private static ApplicationContext context;
 
+    @Resource
+    private RedisTemplate redisTemplate;
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         context = applicationContext;
@@ -222,7 +225,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
                     }
                     // 处理redis的数据 删除与该指令相关的set，hash，list的数据
                     String key = controlId + ":" + one.getDeviceTypeId() + ":" + one.getDeviceId();
-                    RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+//                    RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
                     //移除相关set
                     SetOperations<String, Object> stringObjectSetOperations = redisTemplate.opsForSet();
                     stringObjectSetOperations.remove("id", key);
@@ -363,7 +366,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
             controlId = (Short) channelInfo.get("address");
         }
         if (controlId != null) {
-            RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
+//            RedisTemplate redisTemplate = context.getBean(RedisTemplate.class);
             //获取主板下所有设备Key
             ListOperations listOperations = redisTemplate.opsForList();
             List<String> keys = listOperations.range(controlId, 0, -1);
@@ -405,20 +408,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter implements 
         }
     }
 
-    /**
-     * 功能描述: 发生异常会触发此函数
-     *
-     * @param ctx   通道处理程序上下文
-     * @param cause 异常
-     * @return void
-     * @Author yb
-     * @Date 2023/5/8
-     */
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        ctx.close();
-        log.info("{}:发生了错误,此连接被关闭。此时连通数量:{}", ctx.channel().id(), ChannelMap.getChannelMap().size());
-    }
+//    /**
+//     * 功能描述: 发生异常会触发此函数
+//     *
+//     * @param ctx   通道处理程序上下文
+//     * @param cause 异常
+//     * @return void
+//     * @Author yb
+//     * @Date 2023/5/8
+//     */
+//    @Override
+//    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+//        ctx.close();
+//        log.info("{}:发生了错误,此连接被关闭。此时连通数量:{}", ctx.channel().id(), ChannelMap.getChannelMap().size());
+//    }
 
 }
 
